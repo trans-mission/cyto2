@@ -3,12 +3,10 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+  {{> CyEditor}}
 </body>
 
-<template name="hello">
+<template name="CyEditor">
+    {{> CodeMirror id="cyEditor" name="cyEditor" options=editorOptions code=editorCode reactiveVar="varName"}}
   <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
 </template>
