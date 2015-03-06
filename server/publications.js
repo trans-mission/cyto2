@@ -1,39 +1,3 @@
-if (Meteor.isClient) {
-
-  Template.CyEditor.helpers({
-
-      "editorOptions": function() {
-        return {
-          lineNumbers: true,
-          mode: "javascript"
-        }
-      },
-
-      "editorCode": function() {
-        return "Code to show in editor";
-      }
-
-  });
-
-  Template.CyEditor.events({
-
-    'click button': function (e, t) {
-
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-
-      var code = t.find("#cyEditor").value;
-
-      Meteor.call('saveFile', code, "test.js", "sketches", "utf8", function(){
-        console.log("some callback");
-      });
-    }
-
-  });
-
-
-}
-
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
