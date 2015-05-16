@@ -1,6 +1,6 @@
 if (Meteor.isClient) {
 
-  Template.editor.helpers({
+  Template.cyEditor.helpers({
 
       "editorOptions": function() {
         return {
@@ -15,7 +15,7 @@ if (Meteor.isClient) {
 
   });
 
-  Template.editor.events({
+  Template.cyEditor.events({
 
     'click button': function (e, t) {
 

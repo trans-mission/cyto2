@@ -1,0 +1,13 @@
+<template name="cyEditor">
+  <div id="cyEditor">
+    {{>
+      CodeMirror
+      id="editor"
+      name="editor"
+      options=editorOptions
+      code=editorCode
+      reactiveVar="varName"
+    }}
+    <button>Click Me</button>
+  </div>
+</template>
