@@ -1,4 +1,6 @@
-Template.cyCanvas.onRendered(function() {
+var cyCanvas = Template.cyCanvas;
+
+cyCanvas.onRendered(function() {
   var canvas = this.find('#cyCanvas');
 
   //make canvas fullscreen
@@ -7,11 +9,11 @@ Template.cyCanvas.onRendered(function() {
 
 });
 
-Template.cyCanvas.helpers({
+cyCanvas.helpers({
 
 });
 
-Template.cyCanvas.events({
+cyCanvas.events({
 
   'click': function () {
 
