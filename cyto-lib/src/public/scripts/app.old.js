@@ -1,7 +1,6 @@
 define([
   'cyto',
-  'jquery', 
-  'highlight'
+  'jquery',
   ]
 
   //on document load, init app
@@ -18,7 +17,7 @@ define([
         , defaultSketch;
 
       hljs.initHighlightingOnLoad();
-      
+
       xhrObjLoader.addEventListener('load', function(evt) {
         var sketchList = JSON.parse(evt.target.responseText)
           , items = [];
@@ -42,7 +41,7 @@ define([
 
       /**
        *
-       * Event Handlers 
+       * Event Handlers
        *
        */
 
@@ -65,7 +64,7 @@ define([
 
       /**
        *
-       * Private Functions 
+       * Private Functions
        *
        */
 
@@ -128,7 +127,7 @@ define([
 
           //TODO: parse script string and inject core sketch modules onload, rather than within each sketch
           //console.log(typeof data);
-          
+
           //$('#code').html('<section><pre><code class="javascript">' + data + '</code></pre></section>');
           //$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
         // });
@@ -151,10 +150,4 @@ define([
     cyto.resize();
   });
 
-  //TODO: App Key Shortcuts
-
-  // document.addEventListener('keydown', function(e) {
-  //   console.log(e.keyCode);
-  //   console.log( String.fromCharCode(e.keyCode) );
-  // });
 });

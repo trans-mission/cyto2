@@ -9,22 +9,48 @@ require.config({
     // note: bower_components already included in server static paths
     // so there is no need to specify the directory here
 
-    highlight       : '/highlightjs/highlight.pack',
     underscore      : '/underscore/underscore',
     jquery          : '/jquery/dist/jquery',
     jqueryUi        : '/jquery-ui/jquery-ui',
 
-    Cyto : '/cyMain', //cyto-lib
+    cyto : '/cyMain', //cyto-lib
 
-  },
-
-  shim: {
-    highlight : { exports : 'hljs' }
   }
 
 });
 
-require(['Cyto'], function(app) {
+define(['cyto'], function(Cyto) {
 
-  console.log(app);
+
+  window.cy = window.cyto = new Cyto();
+
+
+  var canvas = document.body.querySelector('canvas')
+    , sketch = canvas.getAttribute('data-sketch') + '.js'
+    , xhr    = new XMLHttpRequest();
+
+  xhr.addEventListener('load', function(evt) {
+    var data = evt.target.response
+      , script = document.createElement('script');
+
+    script.type = 'text/javascript';
+    script.innerHTML = data;
+
+    document.body.appendChild(script);
+
+    console.log(cyto);
+
+    cyto.init(document.getElementById('sketch'));
+
+    //$('#code').html('<section><pre><code class="javascript">' + data + '</code></pre></section>');
+    //$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+  }, false);
+
+  xhr.open('get', '/sketches/' + sketch);
+  xhr.send();
+
+  window.addEventListener('resize', function() {
+    cyto.resize();
+  });
+
 });
