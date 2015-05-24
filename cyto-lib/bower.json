@@ -1,0 +1,39 @@
+{
+  "name": "cyto-lib",
+  "version": "0.0.0",
+  "homepage": "http://whisperlab.io",
+  "authors": [
+    "mmansion <mikhail@whisperlab.io>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.1",
+    "angular-route": "~1.2.1",
+    "angular-scenario": "~1.2.1",
+    "font-awesome": "~4.1.0",
+    "highlightjs": "~8.0.0",
+    "jquery-ui": "~1.11.0",
+    "kineticjs": "~5.0.1",
+    "leapjs": "~0.6.0",
+    "leapjs-plugins": "~0.1.6",
+    "lodash": "~2.4.1",
+    "mathjs": "~0.22.0",
+    "paper": "~0.9.15",
+    "requirejs": "~2.1.11",
+    "threejs": "*",
+    "uikit": "~2.8.0",
+    "underscore": "~1.6.0",
+    "angular-ui-router": "~0.2.10",
+    "codemirror": "~4.4.0",
+    "timbre": "*",
+    "subcollider.js": "https://github.com/mohayonao/subcollider.js.git",
+    "jquery-resizable-columns": "~0.1.3"
+  }
+}

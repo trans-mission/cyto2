@@ -1,0 +1,39 @@
+.screen {
+  position: fixed;
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+
+.panel-right {
+
+  position: fixed; 
+  bottom: 0; 
+  left: 0%;
+  // margin-left: -200px;
+  width: 90%;
+  overflow-x: hidden;
+  height: 100%;
+  padding-left: 0;
+  background-color: purple;
+
+  div {
+    //display: inline-block;
+    height: 100%;
+    width: 50px;
+    float:left;
+  }
+
+  ._1 {
+    background-color: orange;
+    z-index: 1;
+  }
+  ._2 {
+    background-color: lightgreen;
+    z-index: 2;
+  }
+  ._3 {
+    background-color: cyan;
+    z-index: 3;
+  }
+}

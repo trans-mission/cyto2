@@ -1,0 +1,33 @@
+.screen {
+  position: fixed;
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+.panel-right {
+  position: fixed;
+  bottom: 0;
+  left: 0%;
+  width: 90%;
+  overflow-x: hidden;
+  height: 100%;
+  padding-left: 0;
+  background-color: purple;
+}
+.panel-right div {
+  height: 100%;
+  width: 50px;
+  float: left;
+}
+.panel-right ._1 {
+  background-color: orange;
+  z-index: 1;
+}
+.panel-right ._2 {
+  background-color: lightgreen;
+  z-index: 2;
+}
+.panel-right ._3 {
+  background-color: cyan;
+  z-index: 3;
+}

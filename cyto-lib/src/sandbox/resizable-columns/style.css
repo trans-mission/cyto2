@@ -1,0 +1,46 @@
+.screen {
+  position: fixed;
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+.label {
+  position: absolute;
+  color: white;
+  margin: 1em;
+}
+.widget-area {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.35);
+  right: 0 !important;
+  height: 100%;
+  width: 90%;
+}
+.panel-right {
+  position: relative;
+  right: 0 !important;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: purple;
+}
+.panel-right div {
+  height: 100%;
+  width: 50px;
+  float: left;
+}
+.panel-right ._1 {
+  float: right;
+  background-color: orange;
+  z-index: 1;
+}
+.panel-right ._2 {
+  display: none;
+  background-color: lightgreen;
+  z-index: 2;
+}
+.panel-right ._3 {
+  display: none;
+  background-color: cyan;
+  z-index: 3;
+}
