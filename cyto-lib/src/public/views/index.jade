@@ -5,10 +5,12 @@ html(lang='en')
 
     meta(charset='utf-8')
     base(href='/')
+    link(href='/styles/normalize.css', rel='stylesheet')
+    link(href='/styles/main.css', rel='stylesheet')
 
   body
     
-    canvas(id="sketch" data-sketch='arcs')
+    canvas(class="cyto" data-sketch='arcs')
     
     //all scripts loaded via requirejs
     script(src='/requirejs/require.js' data-main='scripts/main')

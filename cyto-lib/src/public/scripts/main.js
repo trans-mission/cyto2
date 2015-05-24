@@ -29,25 +29,28 @@ define(['cyto'], function(Cyto) {
     , sketch = canvas.getAttribute('data-sketch') + '.js'
     , xhr    = new XMLHttpRequest();
 
-  xhr.addEventListener('load', function(evt) {
-    var data = evt.target.response
-      , script = document.createElement('script');
+  // xhr.addEventListener('load', function(evt) {
+  //   var data = evt.target.response
+  //     , script = document.createElement('script');
+  //
+  //   script.type = 'text/javascript';
+  //   script.innerHTML = data;
+  //
+  //   document.body.appendChild(script);
+  //
+  //   console.log(script);
+  //   cyto.init(document.getElementById('sketch'));
+  //
+  //   //$('#code').html('<section><pre><code class="javascript">' + data + '</code></pre></section>');
+  //   //$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+  // }, false);
 
-    script.type = 'text/javascript';
-    script.innerHTML = data;
+  // xhr.open('get', '/sketches/' + sketch);
+  // xhr.send();
 
-    document.body.appendChild(script);
-
-    console.log(cyto);
-
-    cyto.init(document.getElementById('sketch'));
-
-    //$('#code').html('<section><pre><code class="javascript">' + data + '</code></pre></section>');
-    //$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-  }, false);
-
-  xhr.open('get', '/sketches/' + sketch);
-  xhr.send();
+  // cy.sketchLoader.loadSketch(sketch, function(){
+  //   console.log("sketch loaded");
+  // });
 
   window.addEventListener('resize', function() {
     cyto.resize();

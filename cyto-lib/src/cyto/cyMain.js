@@ -61,7 +61,10 @@ define([
       // this._mosueY = 0;
       // this._drawCenter = false;
 
-      this.utils           = cyUtils;
+
+      this.utils = cyUtils;
+      this.view  = new cyView(this);
+
       this.eventDispatcher = new cyEventDispatcher (this);
       this.coords          = new cyCoords          (this);
       // this.shape           = new cyShape           (this);
@@ -71,39 +74,27 @@ define([
 
       this.sketchLoader = new cySketchLoader(this);
 
-        //this._gatherRootObjects(this);
-        // this._registerEvents();
-        // this._registerGlobalEvents();
+      //this._gatherRootObjects(this);
+      //this._registerEvents();
+      // this._registerGlobalEvents();
 
-        //Constructor Singletons
-        this.Grid      = cyGrid;
-        this.Vector    = cyVector;
-        this.Video     = cyVideo;
-        this.Point     = cyPoint;
-        this.Shape     = cyShape;
-        this.Ellipse   = cyEllipse;
-        this.Rectangle = cyRectangle;
-        this.Polygon   = cyPolygon;
+      //Constructor Singletons
+      this.Grid      = cyGrid;
+      this.Vector    = cyVector;
+      this.Video     = cyVideo;
+      this.Point     = cyPoint;
+      this.Shape     = cyShape;
+      this.Ellipse   = cyEllipse;
+      this.Rectangle = cyRectangle;
+      this.Polygon   = cyPolygon;
 
         //  //ADDON CONSTRUCTOR CLASSES
         // this.Leap = cyLeap;
 
         // this.refresh();
-        // this.engine.start(canvasElement);
-
 
       //instantiate core objects
 
-      //TODO: support multiple sketches on one page
-      //var cytoElements = document.querySelectorAll('.cyto');
-      // var sketch = cytoElements[0].getAttribute('data-sketch');
-      // var path = 'sketches/' + sketch + '.js';
-
-      // this.sketchLoader.loadSketch(path, function() {
-
-      //   //this._initializeView(canvasElement);
-      //   console.log('sketch was loaded');
-      // });
 
       //instantiate core 2d primitives
 
@@ -115,9 +106,21 @@ define([
       cyConstants.ROOT_INSTANCE = this; //root reference
 
 
-      this.init = function() {
-        console.log("initializing cyto library");
-      };
+      //TODO: support multiple sketches on one page
+      var cytoElements = document.querySelectorAll('.cyto')
+        , sketch = cytoElements[0].getAttribute('data-sketch')
+        , path = 'sketches/' + sketch + '.js'
+        ;
+
+      this.sketchLoader.loadSketch(path, function(e) {
+
+        console.log('sketch was loaded');
+        
+        this._initializeView(cytoElements[0]);
+        this.engine.start(cytoElements[0]);
+
+      }.bind(this));
+
 
     };
 

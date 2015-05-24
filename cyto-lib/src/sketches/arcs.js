@@ -8,9 +8,12 @@ var cy        = cyto
   , c;
 
 
+
+
 /* Setup
   --------------------------------------------------- */
 cyto.setup = function() {
+  console.log("here");
 
   cy.strokeStyle = '#fff';
   cy.fillStyle = '#fff';
@@ -51,7 +54,7 @@ cyto.draw = function() {
   cy.arc(cyto.width/2, cyto.height/2, 10,   radStart, Math.PI*2,  clockwise);
 
   cy.stroke();
-  
+
   if( + new Date - lastRun > delay) {
     lastRun = + new Date;
   }

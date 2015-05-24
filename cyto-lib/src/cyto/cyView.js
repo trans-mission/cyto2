@@ -59,7 +59,7 @@ define(['cyConfig.js','/cyUtils.js'], function (config, utils) {
 
   //native canvas method overrides
   p.overridesList = ['fill', 'stroke'];
-  
+
   p._stroke    = _context.stroke.bind(p);
   p._fill      = _context.fill.bind(p);
   p._hasStroke = true;
@@ -71,6 +71,8 @@ define(['cyConfig.js','/cyUtils.js'], function (config, utils) {
     _canvas.setAttribute('width',  targetCanvasElement.width);
     _canvas.setAttribute('height', targetCanvasElement.height);
 
+    // TODO: don't think we need to replace elements here any longer
+    // refactor for multiple canvas use
     targetCanvasElement.parentNode.replaceChild(_canvas, targetCanvasElement);
 
     this.width  = _canvas.width;
@@ -146,6 +148,6 @@ define(['cyConfig.js','/cyUtils.js'], function (config, utils) {
   p.hasStroke = function () {
     return this._hasStroke;
   };
-  
+
   return cyView;
 });
