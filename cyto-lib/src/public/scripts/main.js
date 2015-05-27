@@ -21,36 +21,7 @@ require.config({
 
 define(['cyto'], function(Cyto) {
 
-
   window.cy = window.cyto = new Cyto();
-
-
-  var canvas = document.body.querySelector('canvas')
-    , sketch = canvas.getAttribute('data-sketch') + '.js'
-    , xhr    = new XMLHttpRequest();
-
-  // xhr.addEventListener('load', function(evt) {
-  //   var data = evt.target.response
-  //     , script = document.createElement('script');
-  //
-  //   script.type = 'text/javascript';
-  //   script.innerHTML = data;
-  //
-  //   document.body.appendChild(script);
-  //
-  //   console.log(script);
-  //   cyto.init(document.getElementById('sketch'));
-  //
-  //   //$('#code').html('<section><pre><code class="javascript">' + data + '</code></pre></section>');
-  //   //$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-  // }, false);
-
-  // xhr.open('get', '/sketches/' + sketch);
-  // xhr.send();
-
-  // cy.sketchLoader.loadSketch(sketch, function(){
-  //   console.log("sketch loaded");
-  // });
 
   window.addEventListener('resize', function() {
     cyto.resize();
