@@ -55,12 +55,11 @@ define([
 
     ) {
 
-    Cyto = function (canvasObject) {
+    Cyto = function () {
 
       // this._mouseX = 0;
       // this._mosueY = 0;
       // this._drawCenter = false;
-
 
       this.utils = cyUtils;
       this.view  = new cyView(this);
@@ -115,7 +114,7 @@ define([
       this.sketchLoader.loadSketch(path, function(e) {
 
         console.log('sketch was loaded');
-        
+
         this._initializeView(cytoElements[0]);
         this.engine.start(cytoElements[0]);
 
