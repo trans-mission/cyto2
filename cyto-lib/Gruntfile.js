@@ -5,10 +5,22 @@ module.exports = function(grunt) {
   * GRUNT TASKS
   *
   */
- 
+
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
+
+
+    babel: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          "dist/Cyto.js": "src/cyto/Cyto.js"
+        }
+      }
+    },
 
     /**
     *
@@ -40,7 +52,7 @@ module.exports = function(grunt) {
     */
 
     clean: {
-      dist: 'dist/*' //deletes files in dist/webapp dir 
+      dist: 'dist/*' //deletes files in dist/webapp dir
     },
 
     concat: {
@@ -86,7 +98,7 @@ module.exports = function(grunt) {
         dest: 'dist/all.css'
       }
     },
-    
+
     /**
     *
     * CONNECT
@@ -111,12 +123,12 @@ module.exports = function(grunt) {
     */
 
     copy: {
-      source: { 
+      source: {
         files: [
           {
-          expand: true, 
+          expand: true,
           cwd: 'src/',
-          src: [ 
+          src: [
             '*/**'
           ], // include or exclude files to copy
           dest: 'dist/'
@@ -126,7 +138,7 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           {
-          expand: true, 
+          expand: true,
           cwd: 'dist/',
           src: ['build.js', 'build.min.js'],
           dest: 'dist/scripts'
@@ -136,7 +148,7 @@ module.exports = function(grunt) {
       styles: {
         files: [
           {
-          expand: true, 
+          expand: true,
           cwd: 'dist/',
           src: ['all.css', 'all.min.css'],
           dest: 'dist/styles'
@@ -146,7 +158,7 @@ module.exports = function(grunt) {
       sandbox: {
         files: [
           {
-          expand: true, 
+          expand: true,
           cwd: 'src/sandbox/sandbox-template/',
           src: ['**'],
           dest: 'src/sandbox/<%= sandboxSketchTitle %>/'
@@ -192,7 +204,7 @@ module.exports = function(grunt) {
           }],
           dest: 'http://localhost:5984/cytodb/_design/'
         }
-      
+
     },
 
     /**
@@ -344,7 +356,7 @@ module.exports = function(grunt) {
         version: '<%= pkg.version %>',
         url: '<%= pkg.homepage %>',
         options: {
-          themedir: 'docs/yuidoc-theme/cyto', 
+          themedir: 'docs/yuidoc-theme/cyto',
           paths: 'src/',
           outdir: 'docs/'
         }
@@ -377,7 +389,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-remove');
-
+  grunt.loadNpmTasks('grunt-babel');
 
   /*
    * Registered Grunt Tasks
