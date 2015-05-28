@@ -11,20 +11,29 @@ define(function() {
     LINUX:   3,
 
     PI:         Math.PI,
-    TWO_PI:     2 * Math.PI,
-    TAU:        2 * Math.PI,
+    TWO_PI:     Math.PI * 2,
     HALF_PI:    Math.PI / 2,
     THIRD_PI:   Math.PI / 3,
     QUARTER_PI: Math.PI / 4,
 
-    VIEW_CANVAS_RENDERING_CONTEXT_2D: [ 
+    sin   :  Math.sin,
+    cos   :  Math.cos,
+    atan2 :  Math.atan2,
+    sqrt  :  Math.sqrt,
+    round :  Math.round,
+    abs   :  Math.abs,
+    pow   :  Math.pow,
+    min   :  Math.min,
+    max   :  Math.max;
+
+    VIEW_CANVAS_RENDERING_CONTEXT_2D: [
 
     //represents the context properties inherited by the view
 
     //drawing methods
-    'arc', 
-    'arcTo', 
-    'beginPath', 
+    'arc',
+    'arcTo',
+    'beginPath',
     'bezierCurveTo',
     'clearRect',
     'clip',
