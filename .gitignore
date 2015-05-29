@@ -1,0 +1,75 @@
+
+#     ██████╗██╗   ██╗████████╗ ██████╗
+#    ██╔════╝╚██╗ ██╔╝╚══██╔══╝██╔═══██╗
+#    ██║      ╚████╔╝    ██║   ██║   ██║
+#    ██║       ╚██╔╝     ██║   ██║   ██║
+#    ╚██████╗   ██║      ██║   ╚██████╔╝
+#     ╚═════╝   ╚═╝      ╚═╝    ╚═════╝
+
+########################
+# CYTO DEVELOPMENT
+########################
+
+cyto-lib/dev/
+
+########################
+# PACKAGES
+########################
+
+# it is better to unpack these files and commit raw source
+# git has its own built in compression methods
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# BOWER
+/component.json
+**/component.json
+/bower_components
+**/bower_components
+
+# NPM (node package manager)
+/node_modules
+**/node_modules
+
+# SANDBOX
+src/sandbox/_shared/libs/
+
+########################
+# LOGS & SQL #
+########################
+*.log
+*.sql
+*.sqlite
+
+########################
+# Cache and Temp #
+########################
+*~
+.sass-cache/
+dist/
+temp/
+
+########################
+# OS generated files #
+########################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+########################
+# Sublime Text
+########################
+*.sublime-project
+*.sublime-workspace
