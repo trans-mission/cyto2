@@ -284,20 +284,6 @@ module.exports = function(grunt) {
 
     /**
     *
-    * PROCESS HTML
-    *
-    */
-
-    processhtml: {
-      all: {
-        files: {
-          'dist/index.html': ['src/index.html']
-        }
-      }
-    },
-
-    /**
-    *
     * REMOVE
     *
     */
@@ -405,7 +391,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-open');
-  grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-remove');
   grunt.loadNpmTasks('grunt-babel');
 
@@ -427,9 +412,7 @@ module.exports = function(grunt) {
     console.log(config());
   });
 
-
   grunt.registerTask('dev', ['concurrent:dev']);
-
 
   /*
    *
@@ -437,7 +420,6 @@ module.exports = function(grunt) {
    *
    *  - generate a new cyto sketch
    */
-
 
   grunt.registerTask('class', 'Generates a new cyto class.', function() {
     var classList = grunt.file.readJSON('src/classes.json')
