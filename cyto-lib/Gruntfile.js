@@ -68,6 +68,24 @@ module.exports = function(grunt) {
     },
 
     concat: {
+      dev: {
+        options: {
+          separator: '\n;',
+
+          //BANNER FOR DEV BUILD
+          banner: '/**\n * \n * ' +
+                  '<%= pkg.title || pkg.name %> - v<%= pkg.version %> '  +
+                  '<%= grunt.template.today("yyyy.mm.dd") %>\n * \n'     +
+                  '<%= pkg.description ? " * " + pkg.description + "\\n" : "" %>' +
+                  ' * Copyright (c) <%= grunt.template.today("yyyy") %>' +
+                  '<%= pkg.author ? " - " + pkg.author + "\\n" : "" %>'  +
+                  ' *\n */\n\n'
+        },
+        src: [
+          'dev/cyto/**/*.js'
+        ],
+        dest: 'dev/public/lib/cyto.js'
+      },
       scripts: {
         options: {
           separator: '\n;',
@@ -319,6 +337,9 @@ module.exports = function(grunt) {
       options: {
         trace: true
       },
+      dev: {
+
+      },
       scripts: {
         dirList: ['dist/scripts'],
       },
@@ -429,7 +450,7 @@ module.exports = function(grunt) {
    * Registered Grunt Tasks
    */
 
-  grunt.registerTask('dev:cyto-lib', ['copy:dev', 'babel:dev', 'concurrent:dev']);
+  grunt.registerTask('dev', ['copy:dev', 'babel:dev', 'concat:dev', 'concurrent:dev']);
 
   //development and distribution tasks
   grunt.registerTask('build-sandbox', ['bower:sandbox']);
