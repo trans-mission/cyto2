@@ -10,14 +10,26 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    /**
+    *
+    * BABEL
+    *
+    */
 
     babel: {
+
       options: {
         sourceMap: true
       },
+      dev: {
+        files : {
+          // compile es6 js files to js (polyfill)
+          'dev/cyto/Cyto.js' : 'dev/cyto/Cyto.es6.js'
+        }
+      },
       dist: {
         files: {
-          "dist/Cyto.js": "src/cyto/Cyto.js"
+          'dist/Cyto.js' : 'src/cyto/Cyto.es6.js'
         }
       }
     },
@@ -124,7 +136,7 @@ module.exports = function(grunt) {
 
     concurrent: {
       dev: {
-        tasks: ['exec:startServer', 'watch'],
+        tasks: ['exec:dev', 'watch:dev'],
         options: {
             logConcurrentOutput: true
         }
@@ -138,48 +150,60 @@ module.exports = function(grunt) {
     */
 
     copy: {
-      source: {
+      dev: {
         files: [
           {
           expand: true,
           cwd: 'src/',
-          src: [
-            '*/**'
-          ], // include or exclude files to copy
-          dest: 'dist/'
+          src: [  // include or exclude files to copy
+            '**', '!**/sandbox/**', '!**/templates/**'
+          ],
+          dest: 'dev/'
           }
         ]
       },
-      scripts: {
-        files: [
-          {
-          expand: true,
-          cwd: 'dist/',
-          src: ['build.js', 'build.min.js'],
-          dest: 'dist/scripts'
-          }
-        ]
-      },
-      styles: {
-        files: [
-          {
-          expand: true,
-          cwd: 'dist/',
-          src: ['all.css', 'all.min.css'],
-          dest: 'dist/styles'
-          }
-        ]
-      },
-      sandbox: {
-        files: [
-          {
-          expand: true,
-          cwd: 'src/sandbox/sandbox-template/',
-          src: ['**'],
-          dest: 'src/sandbox/<%= sandboxSketchTitle %>/'
-          }
-        ]
-      },
+      // source: {
+      //   files: [
+      //     {
+      //     expand: true,
+      //     cwd: 'src/',
+      //     src: [
+      //       '*/**'
+      //     ], // include or exclude files to copy
+      //     dest: 'dist/'
+      //     }
+      //   ]
+      // },
+      // scripts: {
+      //   files: [
+      //     {
+      //     expand: true,
+      //     cwd: 'dist/',
+      //     src: ['build.js', 'build.min.js'],
+      //     dest: 'dist/scripts'
+      //     }
+      //   ]
+      // },
+      // styles: {
+      //   files: [
+      //     {
+      //     expand: true,
+      //     cwd: 'dist/',
+      //     src: ['all.css', 'all.min.css'],
+      //     dest: 'dist/styles'
+      //     }
+      //   ]
+      // },
+      // sandbox: {
+      //   files: [
+      //     {
+      //     expand: true,
+      //     cwd: 'src/sandbox/sandbox-template/',
+      //     src: ['**'],
+      //     dest: 'src/sandbox/<%= sandboxSketchTitle %>/'
+      //     }
+      //   ]
+      // },
     },
 
     /**
@@ -230,6 +254,8 @@ module.exports = function(grunt) {
 
     exec: {
 
+      dev: 'grunt open & node ./dev/start.js',
+
       editSketch: {
         cmd: function(file) {
           return 'subl ./src/sketches/' + file;
@@ -244,6 +270,7 @@ module.exports = function(grunt) {
 
       //startServer: 'grunt connect &',
       startServer: 'grunt open & node ./src/start.js',
+
 
       loadCyto: {
 
@@ -336,6 +363,10 @@ module.exports = function(grunt) {
         //trigger the live reload for all your watch targets:
         livereload: true
       },
+      dev: { //runs with livereload server
+        files: ['src/**'],
+        tasks: [ /*setup tasks to run on watch */ ]
+      },
       src: {
         files: ['src/**'],
         tasks: [ /*setup tasks to run on watch */ ]
@@ -374,6 +405,7 @@ module.exports = function(grunt) {
     *
     */
 
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-bower');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -392,17 +424,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-remove');
-  grunt.loadNpmTasks('grunt-babel');
 
   /*
    * Registered Grunt Tasks
    */
 
+  grunt.registerTask('dev:cyto-lib', ['copy:dev', 'babel:dev', 'concurrent:dev']);
+
   //development and distribution tasks
   grunt.registerTask('build-sandbox', ['bower:sandbox']);
-
-  //build task
-  grunt.registerTask('default', ['concurrent:target1', 'concurrent:target2']);
 
   //TESTING CONFIG
 
@@ -411,8 +441,6 @@ module.exports = function(grunt) {
     var config = eval(configJS);
     console.log(config());
   });
-
-  grunt.registerTask('dev', ['concurrent:dev']);
 
   /*
    *
