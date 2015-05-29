@@ -24,7 +24,7 @@ define(function() {
     abs   :  Math.abs,
     pow   :  Math.pow,
     min   :  Math.min,
-    max   :  Math.max;
+    max   :  Math.max,
 
     VIEW_CANVAS_RENDERING_CONTEXT_2D: [
 
