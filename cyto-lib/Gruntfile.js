@@ -118,6 +118,21 @@ module.exports = function(grunt) {
 
     /**
     *
+    * CONNECT
+    *
+    */
+
+    concurrent: {
+      dev: {
+        tasks: ['exec:startServer', 'watch'],
+        options: {
+            logConcurrentOutput: true
+        }
+      }
+    },
+
+    /**
+    *
     * COPY
     *
     */
@@ -263,7 +278,7 @@ module.exports = function(grunt) {
 
     open: {
       src: {
-        path: 'http:localhost:3333/sketch'
+        path: 'http:localhost:3333/'
       }
     },
 
@@ -331,6 +346,8 @@ module.exports = function(grunt) {
 
     watch: {
       options: {
+        // This will run a single live reload server and
+        //trigger the live reload for all your watch targets:
         livereload: true
       },
       src: {
@@ -372,6 +389,7 @@ module.exports = function(grunt) {
     */
 
   grunt.loadNpmTasks('grunt-bower');
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -399,7 +417,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build-sandbox', ['bower:sandbox']);
 
   //build task
-  grunt.registerTask('default', ['exec:startServer']);
+  grunt.registerTask('default', ['concurrent:target1', 'concurrent:target2']);
 
   //TESTING CONFIG
 
@@ -410,6 +428,8 @@ module.exports = function(grunt) {
   });
 
 
+  grunt.registerTask('dev', ['concurrent:dev']);
+
 
   /*
    *
@@ -417,6 +437,7 @@ module.exports = function(grunt) {
    *
    *  - generate a new cyto sketch
    */
+
 
   grunt.registerTask('class', 'Generates a new cyto class.', function() {
     var classList = grunt.file.readJSON('src/classes.json')
