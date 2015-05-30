@@ -1,5 +1,4 @@
 var signature  = require('./signature')
-  //, config     = require('./')
   , express    = require('express')
   , colors     = require('colors')
   , path       = require('path')
