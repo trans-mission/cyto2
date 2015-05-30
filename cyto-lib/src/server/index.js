@@ -7,6 +7,7 @@ var signature  = require('./signature')
   , path       = require('path')
   , app        = express()
   , server     = require('http').createServer(app)
+  , router     = new express.Router();
   ;
 
 //-------------------------------------------------------
@@ -33,10 +34,23 @@ module.exports = {
     //the order of which middleware are "defined" is important. the are invoked sequentially
 
     //default routes
-    app.use('/', require('./routes/default'));
+    //app.use('/', require('./routes/default'));
+
+    /* Core Views / Pages
+       -------------------------------------------------- */
+
+    router.get('/', function(req, res) {
+      res.render('index', {title: 'cyto'});
+    });
 
     //static routes
-    require('./routes/static')(root, app);
+    //static routes
+    app.use(express.static(path.join(root, '/')));
+    app.use(express.static(path.join(root, '/../bower_components')));
+    app.use(express.static(path.join(root, 'public')));
+    app.use(express.static(path.join(root, 'sketches')));
+    app.use(express.static(path.join(root, 'sandbox')));
+    app.use(express.static(path.join(root, 'cyto')));
 
     server.listen(app.get('port'), function(){
       console.log('   info  - '.cyan + 'cyto server listening on port ' + app.get('port'));
