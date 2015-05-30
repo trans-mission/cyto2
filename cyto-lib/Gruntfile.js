@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/Cyto.js' : 'src/cyto/Cyto.es6.js'
+          'dist/cyto/Cyto.js' : 'dist/cyto/Cyto.es6.js'
         }
       }
     },
@@ -64,6 +64,9 @@ module.exports = function(grunt) {
     */
 
     clean: {
+      dev: [
+        'dev/**/*.es6.js'
+      ],
       dist: 'dist/*' //deletes files in dist/webapp dir
     },
 
@@ -105,44 +108,6 @@ module.exports = function(grunt) {
           'dist/scripts/core/*'
         ],
         dest: 'dist/build.js'
-      },
-      styles: {
-        options: {
-          separator: '\n;',
-
-          //BANNER FOR MASTER CSS BUILD
-          banner: '/**\n * \n * ' +
-                  '<%= pkg.title || pkg.name %> - v<%= pkg.version %> '  +
-                  '<%= grunt.template.today("yyyy.mm.dd") %>\n * \n'     +
-                  '<%= pkg.description ? " * " + pkg.description + "\\n" : "" %>' +
-                  ' * Copyright (c) <%= grunt.template.today("yyyy") %>' +
-                  '<%= pkg.author ? " - " + pkg.author + "\\n" : "" %>'  +
-                  ' *\n */\n\n'
-        },
-        src: [ //these need to be in order
-          'dist/styles/normalize.css',
-          'dist/styles/bootstrap.css',
-          'dist/styles/main.css',
-          'dist/styles/index.css'
-        ],
-        dest: 'dist/all.css'
-      }
-    },
-
-    /**
-    *
-    * CONNECT
-    *
-    */
-
-    connect: {
-      dev: {
-        options: {
-          port: 9001,
-          base: '.',
-          keepalive: true,
-          hostname : '*'
-        }
       }
     },
 
@@ -180,28 +145,6 @@ module.exports = function(grunt) {
           }
         ]
       },
-      // source: {
-      //   files: [
-      //     {
-      //     expand: true,
-      //     cwd: 'src/',
-      //     src: [
-      //       '*/**'
-      //     ], // include or exclude files to copy
-      //     dest: 'dist/'
-      //     }
-      //   ]
-      // },
-      // scripts: {
-      //   files: [
-      //     {
-      //     expand: true,
-      //     cwd: 'dist/',
-      //     src: ['build.js', 'build.min.js'],
-      //     dest: 'dist/scripts'
-      //     }
-      //   ]
-      // },
       // styles: {
       //   files: [
       //     {
@@ -247,22 +190,20 @@ module.exports = function(grunt) {
       }
     },
 
-    curl: {
-
-      'db-design-view-bkup': {
-        src:  'http://localhost:5984/node_auth/_design/users',
-        dest: 'src/cyto-db/design-views/users.json'
-      },
-
-      'upload': {
-          src: [{
-            url: 'http://localhost:3333/cyto-db/design-views/users.json',
-            method: 'PUT'
-          }],
-          dest: 'http://localhost:5984/cytodb/_design/'
-        }
-
-    },
+    // curl: {
+    //   'db-design-view-bkup': {
+    //     src:  'http://localhost:5984/node_auth/_design/users',
+    //     dest: 'src/cyto-db/design-views/users.json'
+    //   },
+    //
+    //   'upload': {
+    //     src: [{
+    //       url: 'http://localhost:3333/cyto-db/design-views/users.json',
+    //       method: 'PUT'
+    //     }],
+    //     dest: 'http://localhost:5984/cytodb/_design/'
+    //   }
+    // },
 
     /**
     *
@@ -280,26 +221,16 @@ module.exports = function(grunt) {
         }
       },
 
-      editClass: {
-        cmd: function(file) {
-          return 'subl ./src/cyto-core/' + file;
-        }
-      },
-
-      //startServer: 'grunt connect &',
-      startServer: 'grunt open & node ./src/start.js',
-
-
-      loadCyto: {
-
-        stdout: true,
-        stderr: true,
-
-        cmd: function(cytoToLoad) {
-          return '"/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome" --load-and-launch-app=./src/Cyto001/ChromeApp'
-          //return String("open ./src/Cyto" + cytoToLoad + "/cyto.app");
-        }
-      }
+      // loadCyto: {
+      //
+      //   stdout: true,
+      //   stderr: true,
+      //
+      //   cmd: function(cytoToLoad) {
+      //     return '"/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome" --load-and-launch-app=./src/Cyto001/ChromeApp'
+      //     //return String("open ./src/Cyto" + cytoToLoad + "/cyto.app");
+      //   }
+      // }
     },
 
     /**
@@ -327,36 +258,6 @@ module.exports = function(grunt) {
       }
     },
 
-    /**
-    *
-    * REMOVE
-    *
-    */
-
-    remove: {
-      options: {
-        trace: true
-      },
-      dev: {
-
-      },
-      scripts: {
-        dirList: ['dist/scripts'],
-      },
-      styles: {
-        dirList: ['dist/styles'],
-      },
-      cleanup: {
-        fileList: [
-          'dist/build.js',
-          'dist/build.min.js',
-          'dist/all.css',
-          'dist/all.min.css',
-          'dist/styles/normalize-css.css',
-          'dist/styles/bootstrap.css'
-        ]
-      }
-    },
 
     /**
     *
@@ -432,7 +333,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-curl');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -444,13 +344,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-open');
-  grunt.loadNpmTasks('grunt-remove');
 
   /*
    * Registered Grunt Tasks
    */
 
-  grunt.registerTask('dev', ['copy:dev', 'babel:dev', 'concat:dev', 'concurrent:dev']);
+  grunt.registerTask('dev', ['copy:dev', 'babel:dev', 'clean:dev', 'concat:dev', 'concurrent:dev']);
 
   //development and distribution tasks
   grunt.registerTask('build-sandbox', ['bower:sandbox']);
