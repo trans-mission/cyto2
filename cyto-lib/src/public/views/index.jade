@@ -3,17 +3,20 @@ html(lang='en')
   
   head
 
-    meta(charset='utf-8')
     base(href='/')
+    meta(charset='utf-8')
+    
     link(href='/styles/normalize.css', rel='stylesheet')
     link(href='/styles/main.css', rel='stylesheet')
 
   body
     
-    canvas(class="cyto" data-sketch='arcs')
-    
-    //all scripts loaded via requirejs
-    script(src='/requirejs/require.js' data-main='scripts/main')
+    canvas(id="cyto" data-sketch='arcs')
+  
+    script(src='lib/cyto.js')
     
     //TODO: dynamically inject when running grunt dev
     script(src='//localhost:35729/livereload.js')
+    
+    script.
+      window.onload = function() { cyto('canvas', 'cyto') };

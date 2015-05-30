@@ -12,30 +12,6 @@ module.exports = function(grunt) {
 
     /**
     *
-    * BABEL
-    *
-    */
-
-    babel: {
-
-      options: {
-        sourceMap: true
-      },
-      dev: {
-        files : {
-          // compile es6 js files to js (polyfill)
-          'dev/cyto/Cyto.js' : 'dev/cyto/Cyto.es6.js'
-        }
-      },
-      dist: {
-        files: {
-          'dist/cyto/Cyto.js' : 'dist/cyto/Cyto.es6.js'
-        }
-      }
-    },
-
-    /**
-    *
     * BOWER
     *
     */
@@ -65,10 +41,16 @@ module.exports = function(grunt) {
 
     clean: {
       dev: [
-        'dev/**/*.es6.js'
+        'dev/'
       ],
       dist: 'dist/*' //deletes files in dist/webapp dir
     },
+
+    /**
+    *
+    * CONCAT
+    *
+    */
 
     concat: {
       dev: {
@@ -89,7 +71,7 @@ module.exports = function(grunt) {
         ],
         dest: 'dev/public/lib/cyto.js'
       },
-      scripts: {
+      dist: {
         options: {
           separator: '\n;',
 
@@ -139,7 +121,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src/',
           src: [  // include or exclude files to copy
-            '**', '!**/sandbox/**', '!**/templates/**'
+            '**', '!**/sandbox/**', '!**/templates/**', '!**/cyto-old/**'
           ],
           dest: 'dev/'
           }
@@ -287,7 +269,7 @@ module.exports = function(grunt) {
       },
       dev: { //runs with livereload server
         files: ['src/**'],
-        tasks: [ /*setup tasks to run on watch */ ]
+        tasks: ['copy:dev', 'concat:dev']
       },
       src: {
         files: ['src/**'],
@@ -327,7 +309,6 @@ module.exports = function(grunt) {
     *
     */
 
-  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-bower');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -349,7 +330,7 @@ module.exports = function(grunt) {
    * Registered Grunt Tasks
    */
 
-  grunt.registerTask('dev', ['copy:dev', 'babel:dev', 'clean:dev', 'concat:dev', 'concurrent:dev']);
+  grunt.registerTask('dev', ['clean:dev', 'copy:dev', 'concat:dev', 'concurrent:dev']);
 
   //development and distribution tasks
   grunt.registerTask('build-sandbox', ['bower:sandbox']);
