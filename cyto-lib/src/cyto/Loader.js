@@ -1,8 +1,6 @@
 var Loader = function() {};
 
-var p = Loader.prototype;
-
-p.loadSketch = function(path, callback) {
+Loader.prototype.loadSketch = function(path, callback) {
 
   var xhr = new XMLHttpRequest();
 
