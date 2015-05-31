@@ -50,14 +50,6 @@ var Renderer = function(type, canvas) {
     this.hasStroke = true;
     this.hasFill   = false;
 
-    Object.defineProperty(this, 'background', {
-      get: function()  { return this.background },
-      set: function(c) {
-        this.background = c;
-        this.applyBackground(c);
-        }
-    });
-
     // stroke and line styles
 
     Object.defineProperty(this, 'lineWidth', {
@@ -126,12 +118,20 @@ Renderer.prototype.bg = function (c) { //short hand
   this.background(c);
 };
 
+Renderer.prototype.background = function (c) { //short hand
+  this.applyBackground(c);
+};
+
 Renderer.prototype.clear = function () {
   this.ctx.save(); //save the context on a stack
   this.ctx.fillStyle = this.background;
   this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);  // now fill the canvas
   this.ctx.restore(); //save the context on a stack
 }
+
+Renderer.prototype.beginPath = function () {
+  this.ctx.beginPath();
+};
 
 Renderer.prototype.clearPath = function () {
   this.ctx.beginPath();

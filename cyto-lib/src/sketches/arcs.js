@@ -7,7 +7,7 @@ var cy        = cyto
   , deg = 0
   , c;
 
-
+console.log(cyto);
 
 
 /* Setup
