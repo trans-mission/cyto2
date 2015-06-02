@@ -26,9 +26,13 @@ var cyto = function(rendererType, canvasId) {
       '". Only canvas and webgl are supported!');
     } else {
 
-      cyto.renderer = new Renderer(type, canvas);
-      cyto.eventDispatcher = new EventDispatcher(cyto);
-      cyto.drawEngine = new DrawEngine(cyto);
+      // instantiate library classes
+      this.renderer = new Renderer(type, canvas);
+      this.eventDispatcher = new EventDispatcher(this);
+      this.drawEngine = new DrawEngine(this);
+      this.ellipse = new Ellipse();
+
+      console.log(this);
 
       this._gatherRootObjects(this);
 
@@ -58,10 +62,13 @@ var cyto = function(rendererType, canvasId) {
   Cyto.prototype._gatherRootObjects = function () {
     var proto;
 
+    var count = 1;
+
     for(var object in this) {
+        console.log(count++, object);
       if(typeof(this[object]) === 'object') {
 
-        console.log(this[object]);
+        return;
         proto = Object.getPrototypeOf(this[object]);
 
         if(this._hasEvents(proto)) {
