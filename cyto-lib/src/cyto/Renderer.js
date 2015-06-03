@@ -37,9 +37,20 @@
 
 //ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-var Renderer = function(type, canvas) {
+var Renderer = function(rendererType, canvas) {
 
-  if(type == 'canvas') {
+  var type = (
+      rendererType == 'canvas' ||
+      rendererType == 'webgl') ?
+      rendererType :
+      false;
+
+  if(!type) {
+
+    this.errors.typeNotFound(rendererType);
+    return;
+
+  } else if(type == 'canvas') {
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
@@ -80,7 +91,6 @@ var Renderer = function(type, canvas) {
       set: function(bool) { this.hasStroke = bool; }
     });
 
-
     // fill
 
     Object.defineProperty(this, 'fillStyle', { //wraps canvas ctx
@@ -95,13 +105,11 @@ var Renderer = function(type, canvas) {
 
     //initial default settings
 
-
   } else {
     console.error('Cyto error: Sorry, webgl is not yet supported');
   }
 
 };
-
 
 Renderer.prototype.applyBackground = function (c) {
 

@@ -8,44 +8,32 @@ var cyto = function(rendererType, canvasId) {
 
   var Cyto = function(rendererType, canvasId) {
 
+    console.log(rendererType);
+
     cyto = this; //global cyto object (overwrites init cyto function)
 
-    var loader = new Loader()
-      , canvas = document.getElementById(canvasId)
+    var canvas = document.getElementById(canvasId)
       , sketch = canvas.getAttribute('data-sketch')
       , path   = '/sketches/' + sketch + '.js'
-      , type = (
-          rendererType == 'canvas' ||
-          rendererType == 'webgl') ?
-          rendererType :
-          false
       ;
 
-    if(!type) {
-      console.error('Cyto error: No renderer "' + rendererType +
-      '". Only canvas and webgl are supported!');
-    } else {
+    // instantiate library classes
+    this.errors          = new ErrorMessages(this);
+    this.renderer        = new Renderer(rendererType, canvas);
+    this.eventDispatcher = new EventDispatcher(this);
+    this.loader          = new Loader(this);
+    this.drawEngine      = new DrawEngine(this);
+    this.ellipse         = new Ellipse();
 
-      // instantiate library classes
-      this.renderer = new Renderer(type, canvas);
-      this.eventDispatcher = new EventDispatcher(this);
-      this.drawEngine = new DrawEngine(this);
-      this.ellipse = new Ellipse();
+    this._gatherRootObjects(this);
 
-      console.log(this);
 
-      this._gatherRootObjects(this);
 
-      loader.loadSketch(path, function(data) {
-        var script = document.createElement('script');
+    this.loader.loadSketch(path, function() {
+      console.log("loaded");
+      //cyto.drawEngine.start(canvas);
+    });
 
-        script.type = 'text/javascript';
-        script.innerHTML = data;
-
-        document.body.appendChild(script);
-        cyto.drawEngine.start(canvas);
-      });
-    }
   };
 
   Cyto.prototype._captureEvents = function (object, events) {

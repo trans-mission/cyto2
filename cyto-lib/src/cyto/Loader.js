@@ -1,5 +1,13 @@
 var Loader = function() {};
 
+/**
+* LoadSketch
+*
+* @method LoadSketch
+* @param {String} path       - path to js file
+* @param {Function} callback - callback function
+*/
+
 Loader.prototype.loadSketch = function(path, callback) {
 
   var xhr = new XMLHttpRequest();
@@ -10,16 +18,23 @@ Loader.prototype.loadSketch = function(path, callback) {
 
       if (xhr.status === 200) {
 
+        var script = document.createElement('script')
+          , data   = evt.target.response
+          ;
+
+        script.type = 'text/javascript';
+        script.innerHTML = data;
+
+        document.body.appendChild(script);
+
         if(callback && typeof(callback) === 'function') {
-          callback(evt.target.response);
+          callback();
         }
 
       } else if(xhr.status == 404) {
-         console.error('Cyto error:',  path, 'not found');
-
+        cyto.errors.resourceNotFound(path);
       } else {
-         console.error('Cyto error:',  xhr.statusText);
-
+        cyto.errors.xhr(xhr.status);
       }
     }
   };
