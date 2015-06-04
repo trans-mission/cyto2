@@ -8,8 +8,6 @@ var cyto = function(rendererType, canvasId) {
 
   var Cyto = function(rendererType, canvasId) {
 
-    console.log(rendererType);
-
     cyto = this; //global cyto object (overwrites init cyto function)
 
     var canvas = document.getElementById(canvasId)
@@ -26,7 +24,6 @@ var cyto = function(rendererType, canvasId) {
     this.ellipse         = new Ellipse();
 
     this._gatherRootObjects(this);
-
 
 
     this.loader.loadSketch(path, function() {
