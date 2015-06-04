@@ -23,8 +23,14 @@ var cyto = function(rendererType, canvasId) {
     this.drawEngine      = new DrawEngine(this);
     this.ellipse         = new Ellipse();
 
-    this._gatherRootObjects(this);
+    // TODO: inspect apply method as means of gathering root objects
+    // SEE: eventDispatcher
+    
+    // expose public methods from all library prototypes
+    //this._getPrototypeMethods();
 
+
+    //initialize sketch
     this.loader.loadSketch(path, function() {
       cyto.drawEngine.start(canvas);
     });
@@ -42,14 +48,15 @@ var cyto = function(rendererType, canvasId) {
     return (object.events !== undefined);
   };
 
-  Cyto.prototype._gatherRootObjects = function () {
+  Cyto.prototype._getPrototypeMethods = function () {
     var proto;
 
     var count = 1;
 
+    console.log(this);
     for(var object in this) {
-        console.log(count++, object);
       if(typeof(this[object]) === 'object') {
+        console.log(count++);
 
         return;
         proto = Object.getPrototypeOf(this[object]);

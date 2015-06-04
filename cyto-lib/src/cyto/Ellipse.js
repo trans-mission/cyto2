@@ -1,8 +1,6 @@
 var Ellipse = function() {
 
-  this.hi = 'hi';
   this.ctx = cyto.renderer.getContext();
-  console.log(this.ctx);
 
 }
 
