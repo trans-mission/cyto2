@@ -25,10 +25,8 @@ var cyto = function(rendererType, canvasId) {
 
     this._gatherRootObjects(this);
 
-
     this.loader.loadSketch(path, function() {
-      console.log("loaded");
-      //cyto.drawEngine.start(canvas);
+      cyto.drawEngine.start(canvas);
     });
 
   };
