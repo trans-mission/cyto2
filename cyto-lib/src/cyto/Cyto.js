@@ -25,16 +25,8 @@ var cyto = function(rendererType, canvasId) {
     this.drawEngine      = new DrawEngine(this);
     this.ellipse         = new Ellipse();
 
-    // TODO: inspect apply method as means of gathering root objects
-    // SEE: eventDispatcher
 
-    // expose public methods from all library prototypes
-    this._getPrototypeMethods(this);
-    //
-    // for(var object in this) {
-    //
-    //   console.log(this[object]);
-    // }
+    this._gatherRootProperties(this);
 
     //initialize sketch
     this.loader.loadSketch(path, function() {
@@ -54,14 +46,13 @@ var cyto = function(rendererType, canvasId) {
     return (object.events !== undefined);
   };
 
-  Cyto.prototype._getPrototypeMethods = function () {
+  Cyto.prototype._gatherRootProperties = function () {
 
     for(var object in this) {
       if(typeof(this[object]) === 'object') {
         if(this[object]._rootAccessible) {
 
           // apply unique instance methods & properties onto the root
-
           for(var key in this[object]) {
             if(this[object].hasOwnProperty(key)) {
 
@@ -72,6 +63,11 @@ var cyto = function(rendererType, canvasId) {
 
           //  apply the prototype properties and methods onto the root
           var prototype = Object.getPrototypeOf(this[object]);
+
+          //TODO: capture events for subclass (is this even necessary???)
+          // if(this._hasEvents(prototype)) {
+          //   this._captureEvents(object, prototype.events);
+          // }
           for(var key in prototype) {
             if(prototype.hasOwnProperty(key) && !String(key).match(/_/)) {
 
@@ -82,41 +78,7 @@ var cyto = function(rendererType, canvasId) {
         }
       }
     }
-    // var proto;
-    //
-    // var count = 1;
-    //
-    // console.log(cyto);
-    // console.log(this);
-    //
-    // for(var objects in this) {
-    //
-    //   console.log(this.errors);
-
-      // if(typeof(this[object]) === 'object') {
-      //   console.log(count++);
-      //
-      //   return;
-      //   proto = Object.getPrototypeOf(this[object]);
-      //
-      //   if(this._hasEvents(proto)) {
-      //     this._captureEvents(object, proto.events);
-      //   }
-      //   for(var key in proto) {
-      //     if(proto.hasOwnProperty(key) && !String(key).match(/_/)) { //if not private
-      //       if(typeof proto[key] === 'function') {
-      //         this[key] = function() { //wraps function calls of exposed prototype methods
-      //           proto[key]();
-      //         }
-      //       } else {
-      //         this[key] = proto[key];
-      //       }
-      //     }
-      //   }
-      // }
-    //}
   };
 
   return new Cyto(rendererType, canvasId);
-
 };
