@@ -37,7 +37,9 @@
 
 //ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-var Renderer = function(rendererType, canvas) {
+var Renderer = function(root, rendererType, canvas) {
+
+  this._rootAccessible = true;
 
   var type = (
       rendererType == 'canvas' ||
@@ -57,10 +59,7 @@ var Renderer = function(rendererType, canvas) {
 
 
     //default settings
-    this.lineWidth = 1.0;
-    this.hasStroke = true;
-    this.hasFill   = false;
-
+    //TODO: set defaults
     // stroke and line styles
 
     Object.defineProperty(this, 'lineWidth', {
@@ -110,6 +109,7 @@ var Renderer = function(rendererType, canvas) {
   }
 
 };
+
 
 Renderer.prototype.applyBackground = function (c) {
 
