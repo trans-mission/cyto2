@@ -37,6 +37,8 @@ module.exports = {
     app.use(express.static(path.join(root, 'sandbox')));
     app.use(express.static(path.join(root, 'cyto')));
 
+    //app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+
 
     server.listen(app.get('port'), function(){
       console.log('   info  - '.cyan + 'cyto server listening on port ' + app.get('port'));
