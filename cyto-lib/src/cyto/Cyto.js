@@ -16,6 +16,7 @@ var cyto = function(rendererType, canvasId) {
       , sketch = canvas.getAttribute('data-sketch')
       , path   = '/sketches/' + sketch + '.js'
       ;
+    
 
     // instantiate library classes
     this.errors          = new ErrorMessages(this);
