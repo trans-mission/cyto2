@@ -104,7 +104,6 @@ var Renderer = function(root) {
       set: function(bool) { this.hasFill = bool; }
     });
 
-    //initial default settings
 
   } else {
     console.error('Cyto error: Sorry, webgl is not yet supported');
