@@ -2,12 +2,12 @@ var Ellipse = function() {
 
   this._rootAccessible = true;
 
-  this.ctx = cyto.renderer.getContext();
+  this._context = cyto.renderer.getContext();
 
 }
 
 Ellipse.prototype.arc = function(x, y, radius, startAngle, anticlockwise) {
-  this.ctx.arc(x, y, radius, startAngle, anticlockwise);
+  this._context.arc(x, y, radius, startAngle, anticlockwise);
 }
 
 

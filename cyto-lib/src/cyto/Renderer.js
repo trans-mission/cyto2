@@ -41,6 +41,7 @@ var Renderer = function() {
 
   //are public properties & methods root accessible (i.e. cyto.prop) ?
   this._rootAccessible = true;
+  this._canvas  = cyto.canvas;
 
   if(!cyto.rendererType == 'canvas' ||
      !cyto.rendererType == 'webgl') {
@@ -50,13 +51,12 @@ var Renderer = function() {
 
   } else if(cyto.rendererType == 'canvas') {
 
-    this.canvas = cyto.canvas;
-    this.ctx = cyto.canvas.getContext('2d');
+    this._context = this._canvas.getContext('2d');
 
     Object.defineProperty(this, 'lineWidth', {
       //default line width is 1.0
-      get: function()  { return this.ctx.lineWidth },
-      set: function(w) { this.ctx.lineWidth = w;   }
+      get: function()  { return this._context.lineWidth },
+      set: function(w) { this._context.lineWidth = w;   }
     });
 
     // TODO: lineCap
@@ -71,15 +71,15 @@ var Renderer = function() {
 
     // TODO: lineDashOffset
 
-    Object.defineProperty(this, 'strokeStyle', { //wraps canvas ctx
-      get: function()  { return this.ctx.strokeStyle },
-      set: function(c) { this.ctx.strokeStyle = c;   }
+    Object.defineProperty(this, 'strokeStyle', { //wraps canvas _context
+      get: function()  { return this._context.strokeStyle },
+      set: function(c) { this._context.strokeStyle = c;   }
     });
 
 
-    Object.defineProperty(this, 'fillStyle', { //wraps canvas ctx
-      get: function()  { return this.ctx.fillStyle },
-      set: function(c) { this.ctx.fillStyle = c;   }
+    Object.defineProperty(this, 'fillStyle', { //wraps canvas _context
+      get: function()  { return this._context.fillStyle },
+      set: function(c) { this._context.fillStyle = c;   }
     });
 
     var hasStroke = false;
@@ -99,19 +99,22 @@ var Renderer = function() {
   }
 
   Object.defineProperty(this, 'width', {
-    get: function() {  return this.canvas.width },
+    get: function() {  return this._canvas.width },
     set: function(w) {
-      this.canvas.style.width = w + 'px';
-      this.canvas.width       = w;
+      console.log("-----------------------------");
+      this._canvas.style.width = w + 'px';
+      this._canvas.width       = w;
+      this._canvas.setAttribute('width', w);
     },
     enumerable: true
   });
 
   Object.defineProperty(this, 'height', {
-    get: function() {  return this.canvas.height },
+    get: function() {  return this._canvas.height },
     set: function(h) {
-      this.canvas.style.height = h + 'px';
-      this.canvas.height       = h;
+      this._canvas.style.height = h + 'px';
+      this._canvas.height       = h;
+      this._canvas.setAttribute('height', h);
     },
     enumerable: true
   });
@@ -121,12 +124,12 @@ var Renderer = function() {
 Renderer.prototype.applyBackground = function (c) {
 
   //save the context on a stack
-  this.ctx.save();
-  this.ctx.fillStyle = c;
+  this._context.save();
+  this._context.fillStyle = c;
 
   // now fill the canvas
-  this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  this.ctx.restore();
+  this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+  this._context.restore();
 };
 
 Renderer.prototype.bg = function (c) { //short hand
@@ -138,29 +141,29 @@ Renderer.prototype.background = function (c) { //short hand
 };
 
 Renderer.prototype.clear = function () {
-  this.ctx.save(); //save the context on a stack
-  this.ctx.fillStyle = this.background;
-  this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);  // now fill the canvas
-  this.ctx.restore(); //save the context on a stack
+  this._context.save(); //save the context on a stack
+  this._context.fillStyle = this.background;
+  this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);  // now fill the canvas
+  this._context.restore(); //save the context on a stack
 }
 
 Renderer.prototype.beginPath = function () {
-  this.ctx.beginPath();
+  this._context.beginPath();
 };
 
 Renderer.prototype.clearPath = function () {
-  this.ctx.beginPath();
+  this._context.beginPath();
 };
 
 Renderer.prototype.getContext = function () {
-  return this.ctx;
+  return this._context;
 };
 
 //Strokes the subpaths with the current stroke style
 Renderer.prototype.stroke = function (c) {
   if(c !== undefined) this.strokeStyle = c;
   this.hasStroke = true;
-  this.ctx.stroke();
+  this._context.stroke();
 };
 
 Renderer.prototype.noStroke = function (color) {
@@ -171,7 +174,7 @@ Renderer.prototype.noStroke = function (color) {
 Renderer.prototype.fill = function (c) {
   if(c !== undefined) this.fillStyle = c;
   this.hasFill  = true;
-  this.ctx.fill();
+  this._context.fill();
 };
 
 Renderer.prototype.noFill = function () {

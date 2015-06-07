@@ -28,7 +28,7 @@ cyto.update = function() {
   --------------------------------------------------- */
 cyto.draw = function() {
 
-  cy.bg('#000000'); //draw baground
+  cy.bg('#fff'); //draw baground
 
   deg += 2;
 

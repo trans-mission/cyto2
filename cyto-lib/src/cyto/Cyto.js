@@ -36,8 +36,6 @@ var cyto = function(rendererType, canvasId) {
       //maximize canvas view
       cyto.width   = window.innerWidth;
       cyto.height  = window.innerHeight;
-      cyto.centerX = cyto.width/2;
-      cyto.centerY = cyto.height/2;
 
       cyto.drawEngine.start(cyto.canvas);
     }
@@ -53,34 +51,59 @@ var cyto = function(rendererType, canvasId) {
       return (object.events !== undefined);
     }
 
-    function makeRootAccessible() {
-      for(var o in cyto) {
-        if(typeof(cyto[o]) === 'object' && cyto[o]._rootAccessible) {
+    function makeRootAccessible(target) {
+      for(var obj in target) {
+        if(typeof(target[obj]) === 'object' && target[obj]._rootAccessible) {
           // apply instance methods & properties onto the root
-          for(var key in cyto[o]) {
-            if(cyto[o].hasOwnProperty(key) && !String(key).match(/_/)) {
-              if(typeof(cyto[o][key]) === 'function') {
-                cyto[key] = cyto[o][key].bind(cyto[o]);
+          for(var key in target[obj]) {
+            if(target[obj].hasOwnProperty(key) && !String(key).match(/_/)) {
+              if(typeof(target[obj][key]) === 'function') {
+                target[key] = target[obj][key].bind(target[obj]);
               } else {
-                cyto[key] = cyto[o][key];
+
+                /*
+                *  get or set subclass property from root
+                *
+                * important to bind target[obj] and pass key arg
+                * within anonymous function; else we would only have
+                * access to the last target[obj] in the for loop iteration
+                * also, javascript passes value by copy-ref, so we
+                * cannot simply say root[key] = root[object][key]
+                * and have values stay in sync
+                */
+
+                (function(key) {
+                  var subclass = this;
+
+                  Object.defineProperty(target, key, {
+                    get: function() {
+                      return subclass[key];
+                    },
+                    set: function(value) {
+                      subclass[key] = value;
+                    },
+                    enumerable: true
+                  });
+
+                }.bind(target[obj]))(key);
+
               }
-              //place reference onto the root
-              //cyto[key] = cyto[o][key];
+              //target[key] = target[o][key];
             }
           }
           //  apply the prototype properties and methods onto the root
-          var p = Object.getPrototypeOf(cyto[o]);
+          var p = Object.getPrototypeOf(target[obj]);
 
-            //TODO: capture events for subclass (is cyto even necessary???)
-            // if(cyto._hasEvents(proto)) {
-            //   cyto._captureEvents(object, proto.events);
+            //TODO: capture events for subclass (is target even necessary???)
+            // if(target._hasEvents(proto)) {
+            //   target._captureEvents(object, proto.events);
             // }
           for(var key in p) {
             if(p.hasOwnProperty(key) && !String(key).match(/_/)) {
               if(typeof(p[key]) === 'function') {
-                cyto[key] = p[key].bind(cyto[o]);
+                target[key] = p[key].bind(target[obj]);
               } else {
-                cyto[key] = p[key];
+                target[key] = p[key];
               }
             }
           }
