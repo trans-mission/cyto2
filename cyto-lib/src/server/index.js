@@ -1,4 +1,5 @@
 var signature  = require('./signature')
+  , favicon   = require('serve-favicon')
   , express    = require('express')
   , colors     = require('colors')
   , path       = require('path')
@@ -29,6 +30,8 @@ module.exports = {
       res.render('index', {title: 'cyto'});
     });
 
+    app.use(favicon(path.join(root, '/public/images/favicon.ico')));
+
     //static routes
     app.use(express.static(path.join(root, '/')));
     app.use(express.static(path.join(root, '/../bower_components')));
@@ -36,8 +39,7 @@ module.exports = {
     app.use(express.static(path.join(root, 'sketches')));
     app.use(express.static(path.join(root, 'sandbox')));
     app.use(express.static(path.join(root, 'cyto')));
-
-    //app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+    //app.use(favicon(path.join(root, 'public/images/favicon.ico')));
 
 
     server.listen(app.get('port'), function(){
