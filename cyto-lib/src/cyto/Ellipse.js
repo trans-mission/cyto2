@@ -1,4 +1,4 @@
-var Ellipse = function(root) {
+var Ellipse = function() {
 
   this._rootAccessible = true;
 
@@ -7,7 +7,6 @@ var Ellipse = function(root) {
 }
 
 Ellipse.prototype.arc = function(x, y, radius, startAngle, anticlockwise) {
-  console.log(x,y,radius, startAngle, anticlockwise);
   this.ctx.arc(x, y, radius, startAngle, anticlockwise);
 }
 

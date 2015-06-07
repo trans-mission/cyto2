@@ -12,6 +12,8 @@ var cy        = cyto
 cyto.setup = function() {
   cy.strokeStyle = '#fff';
   cy.fillStyle = '#fff';
+
+  console.log(cy.strokeStyle);
 }
 
 /* Update
@@ -26,7 +28,7 @@ cyto.update = function() {
   --------------------------------------------------- */
 cyto.draw = function() {
 
-  cy.bg('#0000FF'); //draw baground
+  cy.bg('#000000'); //draw baground
 
   deg += 2;
 

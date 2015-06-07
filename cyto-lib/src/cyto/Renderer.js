@@ -37,32 +37,21 @@
 
 //ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-var Renderer = function(root) {
+var Renderer = function() {
 
+  //are public properties & methods root accessible (i.e. cyto.prop) ?
   this._rootAccessible = true;
 
-  var canvas = root.canvas
-    , type = (
-      root.rendererType == 'canvas' ||
-      root.rendererType == 'webgl') ?
-      root.rendererType :
-      false
-      ;
+  if(!cyto.rendererType == 'canvas' ||
+     !cyto.rendererType == 'webgl') {
 
-  if(!type) {
-
-    this.errors.typeNotFound(rendererType);
+    cyto.errors.typeNotFound(cyto.rendererType);
     return;
 
-  } else if(type == 'canvas') {
+  } else if(cyto.rendererType == 'canvas') {
 
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-
-
-    //default settings
-    //TODO: set defaults
-    // stroke and line styles
+    this.canvas = cyto.canvas;
+    this.ctx = cyto.canvas.getContext('2d');
 
     Object.defineProperty(this, 'lineWidth', {
       //default line width is 1.0
@@ -87,23 +76,23 @@ var Renderer = function(root) {
       set: function(c) { this.ctx.strokeStyle = c;   }
     });
 
-    Object.defineProperty(this, 'hasStroke', {
-      get: function()     { return this.hasStroke  },
-      set: function(bool) { this.hasStroke = bool; }
-    });
-
-    // fill
 
     Object.defineProperty(this, 'fillStyle', { //wraps canvas ctx
       get: function()  { return this.ctx.fillStyle },
       set: function(c) { this.ctx.fillStyle = c;   }
     });
 
-    Object.defineProperty(this, 'hasFill', {
-      get: function()     { return this.hasFill  },
-      set: function(bool) { this.hasFill = bool; }
+    var hasStroke = false;
+    Object.defineProperty(this, 'hasStroke', {
+      get: function()     { return  hasStroke},
+      set: function(bool) { hasStroke = bool; }
     });
 
+    var hasFill = false;
+    Object.defineProperty(this, 'hasFill', {
+      get: function()     { return hasFill  },
+      set: function(bool) { hasFill = bool; }
+    });
 
   } else {
     console.error('Cyto error: Sorry, webgl is not yet supported');
@@ -114,7 +103,8 @@ var Renderer = function(root) {
     set: function(w) {
       this.canvas.style.width = w + 'px';
       this.canvas.width       = w;
-    }
+    },
+    enumerable: true
   });
 
   Object.defineProperty(this, 'height', {
@@ -122,7 +112,8 @@ var Renderer = function(root) {
     set: function(h) {
       this.canvas.style.height = h + 'px';
       this.canvas.height       = h;
-    }
+    },
+    enumerable: true
   });
 };
 
@@ -174,7 +165,7 @@ Renderer.prototype.stroke = function (c) {
 
 Renderer.prototype.noStroke = function (color) {
   this.hasStroke = false;
-  //this.strokeStyle = 'rgba(0,0,0,0)';
+  this.strokeStyle = 'rgba(0,0,0,0)';
 };
 
 Renderer.prototype.fill = function (c) {

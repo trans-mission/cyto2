@@ -12,93 +12,82 @@ var cyto = function(rendererType, canvasId) {
 
     cyto = this; //global cyto object (overwrites init cyto function)
 
-    this.rendererType  = rendererType
-    this.canvas = document.getElementById(canvasId);
-    this.sketch = this.canvas.getAttribute('data-sketch');
-    this.path   = '/sketches/'
+    cyto.rendererType  = rendererType;
 
-    this.errors          = new ErrorMessages(this);
-    this.renderer        = new Renderer(this);
-    this.eventDispatcher = new EventDispatcher(this);
-    this.loader          = new Loader(this);
-    this.drawEngine      = new DrawEngine(this);
-    this.ellipse         = new Ellipse();
+    cyto.canvas = document.getElementById(canvasId);
+    cyto.sketch = cyto.canvas.getAttribute('data-sketch');
+    cyto.path   = '/sketches/'
 
+    cyto.errors          = new ErrorMessages();
+    cyto.renderer        = new Renderer();
+    cyto.eventDispatcher = new EventDispatcher();
+    cyto.loader          = new Loader(cyto);
+    cyto.drawEngine      = new DrawEngine(cyto);
+    cyto.ellipse         = new Ellipse();
 
-    this._gatherRootProperties(this);
+    makeRootAccessible(cyto);
 
     //load sketch
-    this.loader.loadSketch(this.path + this.sketch, start.bind(this));
+    cyto.loader.loadSketch(cyto.path + cyto.sketch, init.bind(this));
 
     //initialize sketch
-    function start() {
-      //   this.width   = window.innerWidth;
-      //   this.height  = window.innerHeight;
-      //   this.centerX = this.width/2;
-      //   this.centerY = this.height/2;
-      console.log(this.canvas.width, this.canvas.style.width);
-      //this.drawEngine.start(this.canvas);
+    function init() {
+
+      //maximize canvas view
+      cyto.width   = window.innerWidth;
+      cyto.height  = window.innerHeight;
+      cyto.centerX = cyto.width/2;
+      cyto.centerY = cyto.height/2;
+
+      cyto.drawEngine.start(cyto.canvas);
     }
 
-  };
+    function captureEvents(object, events) {
+      events.forEach(function(e) {
+        if(!cyto._eventsList[object]) cyto._eventsList[object] = [];
+        cyto._eventsList[object].push(e);
+      });
+    }
 
-  Cyto.prototype._initializeView = function (targetCanvasElement) {
-     _canvas.setAttribute('id', 'cyto-' + targetCanvasElement.id);
+    function hasEvents(object) {
+      return (object.events !== undefined);
+    }
 
-    _canvas.setAttribute('width',  targetCanvasElement.width);
-    _canvas.setAttribute('height', targetCanvasElement.height);
-
-    // TODO: don't think we need to replace elements here any longer
-    // refactor for multiple canvas use
-    targetCanvasElement.parentNode.replaceChild(_canvas, targetCanvasElement);
-
-    this.width  = _canvas.width;
-    this.height = _canvas.height;
-  };
-
-  Cyto.prototype._captureEvents = function (object, events) {
-    events.forEach(function(e) {
-      if(!this._eventsList[object]) this._eventsList[object] = [];
-      this._eventsList[object].push(e);
-    }.bind(this));
-  };
-
-  Cyto.prototype._hasEvents = function(object) {
-    return (object.events !== undefined);
-  };
-
-  Cyto.prototype._gatherRootProperties = function () {
-
-    for(var object in this) {
-      if(typeof(this[object]) === 'object') {
-        if(this[object]._rootAccessible) {
-
-          // apply unique instance methods & properties onto the root
-          for(var key in this[object]) {
-            if(this[object].hasOwnProperty(key)) {
-
+    function makeRootAccessible() {
+      for(var o in cyto) {
+        if(typeof(cyto[o]) === 'object' && cyto[o]._rootAccessible) {
+          // apply instance methods & properties onto the root
+          for(var key in cyto[o]) {
+            if(cyto[o].hasOwnProperty(key) && !String(key).match(/_/)) {
+              if(typeof(cyto[o][key]) === 'function') {
+                cyto[key] = cyto[o][key].bind(cyto[o]);
+              } else {
+                cyto[key] = cyto[o][key];
+              }
               //place reference onto the root
-              this[key] = this[object][key];
+              //cyto[key] = cyto[o][key];
             }
           }
-
           //  apply the prototype properties and methods onto the root
-          var prototype = Object.getPrototypeOf(this[object]);
+          var p = Object.getPrototypeOf(cyto[o]);
 
-          //TODO: capture events for subclass (is this even necessary???)
-          // if(this._hasEvents(prototype)) {
-          //   this._captureEvents(object, prototype.events);
-          // }
-          for(var key in prototype) {
-            if(prototype.hasOwnProperty(key) && !String(key).match(/_/)) {
-
-              //place reference on root object
-              this[key] = prototype[key];
+            //TODO: capture events for subclass (is cyto even necessary???)
+            // if(cyto._hasEvents(proto)) {
+            //   cyto._captureEvents(object, proto.events);
+            // }
+          for(var key in p) {
+            if(p.hasOwnProperty(key) && !String(key).match(/_/)) {
+              if(typeof(p[key]) === 'function') {
+                cyto[key] = p[key].bind(cyto[o]);
+              } else {
+                cyto[key] = p[key];
+              }
             }
           }
         }
       }
-    }
+    };
+
   };
 
   return new Cyto(rendererType, canvasId);

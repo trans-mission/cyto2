@@ -6,9 +6,12 @@
 
   var EventDispatcher = function(target) {
 
-    if(target !== undefined) this.apply(target);
+    if(target !== undefined) {
+      this.apply(target);
+    } else {
+      this.apply(cyto);
+    }
   };
-
 
   EventDispatcher.prototype = {
 
