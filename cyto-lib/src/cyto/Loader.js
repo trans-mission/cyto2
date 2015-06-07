@@ -1,4 +1,6 @@
-var Loader = function() {};
+var Loader = function(target) {
+
+};
 
 /**
 * LoadSketch
@@ -10,7 +12,9 @@ var Loader = function() {};
 
 Loader.prototype.loadSketch = function(path, callback) {
 
-  var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest()
+    , path = path + '.js'
+    ;
 
   xhr.onreadystatechange = function (evt) {
 

@@ -37,15 +37,17 @@
 
 //ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-var Renderer = function(root, rendererType, canvas) {
+var Renderer = function(root) {
 
   this._rootAccessible = true;
 
-  var type = (
-      rendererType == 'canvas' ||
-      rendererType == 'webgl') ?
-      rendererType :
-      false;
+  var canvas = root.canvas
+    , type = (
+      root.rendererType == 'canvas' ||
+      root.rendererType == 'webgl') ?
+      root.rendererType :
+      false
+      ;
 
   if(!type) {
 
@@ -108,6 +110,21 @@ var Renderer = function(root, rendererType, canvas) {
     console.error('Cyto error: Sorry, webgl is not yet supported');
   }
 
+  Object.defineProperty(this, 'width', {
+    get: function() {  return this.canvas.width },
+    set: function(w) {
+      this.canvas.style.width = w + 'px';
+      this.canvas.width       = w;
+    }
+  });
+
+  Object.defineProperty(this, 'height', {
+    get: function() {  return this.canvas.height },
+    set: function(h) {
+      this.canvas.style.height = h + 'px';
+      this.canvas.height       = h;
+    }
+  });
 };
 
 

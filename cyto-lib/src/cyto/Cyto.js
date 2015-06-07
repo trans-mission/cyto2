@@ -1,8 +1,8 @@
 "use strict"
 
 /**
-* Provides the primary Renderer class
-* @module cyto library object
+* Cyto Library Class
+* @class Cyto
 */
 
 //wrapper to kick off library
@@ -12,15 +12,13 @@ var cyto = function(rendererType, canvasId) {
 
     cyto = this; //global cyto object (overwrites init cyto function)
 
-    var canvas = document.getElementById(canvasId)
-      , sketch = canvas.getAttribute('data-sketch')
-      , path   = '/sketches/' + sketch + '.js'
-      ;
-    
+    this.rendererType  = rendererType
+    this.canvas = document.getElementById(canvasId);
+    this.sketch = this.canvas.getAttribute('data-sketch');
+    this.path   = '/sketches/'
 
-    // instantiate library classes
     this.errors          = new ErrorMessages(this);
-    this.renderer        = new Renderer(this,rendererType, canvas);
+    this.renderer        = new Renderer(this);
     this.eventDispatcher = new EventDispatcher(this);
     this.loader          = new Loader(this);
     this.drawEngine      = new DrawEngine(this);
@@ -29,11 +27,33 @@ var cyto = function(rendererType, canvasId) {
 
     this._gatherRootProperties(this);
 
-    //initialize sketch
-    this.loader.loadSketch(path, function() {
-      cyto.drawEngine.start(canvas);
-    });
+    //load sketch
+    this.loader.loadSketch(this.path + this.sketch, start.bind(this));
 
+    //initialize sketch
+    function start() {
+      //   this.width   = window.innerWidth;
+      //   this.height  = window.innerHeight;
+      //   this.centerX = this.width/2;
+      //   this.centerY = this.height/2;
+      console.log(this.canvas.width, this.canvas.style.width);
+      //this.drawEngine.start(this.canvas);
+    }
+
+  };
+
+  Cyto.prototype._initializeView = function (targetCanvasElement) {
+     _canvas.setAttribute('id', 'cyto-' + targetCanvasElement.id);
+
+    _canvas.setAttribute('width',  targetCanvasElement.width);
+    _canvas.setAttribute('height', targetCanvasElement.height);
+
+    // TODO: don't think we need to replace elements here any longer
+    // refactor for multiple canvas use
+    targetCanvasElement.parentNode.replaceChild(_canvas, targetCanvasElement);
+
+    this.width  = _canvas.width;
+    this.height = _canvas.height;
   };
 
   Cyto.prototype._captureEvents = function (object, events) {
