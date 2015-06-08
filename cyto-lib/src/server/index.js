@@ -1,5 +1,5 @@
 var signature  = require('./signature')
-  , favicon   = require('serve-favicon')
+  , favicon    = require('serve-favicon')
   , express    = require('express')
   , colors     = require('colors')
   , path       = require('path')
@@ -7,13 +7,11 @@ var signature  = require('./signature')
   , server     = require('http').createServer(app)
   ;
 
-//-------------------------------------------------------
-
 module.exports = {
 
   start: function(root) {
 
-    //set the server port
+    //set app server port
     app.set('port',  process.env.PORT || 3333);
 
     //setup the view directories
@@ -24,12 +22,6 @@ module.exports = {
     app.set('view engine', 'jade');
 
     // order of middleware important, invoked sequentially
-
-    //default routes
-    app.get('/', function(req, res) {
-      res.render('index', {title: 'cyto'});
-    });
-
     app.use(favicon(path.join(root, '/public/images/favicon.ico')));
 
     //static routes
@@ -39,12 +31,14 @@ module.exports = {
     app.use(express.static(path.join(root, 'sketches')));
     app.use(express.static(path.join(root, 'sandbox')));
     app.use(express.static(path.join(root, 'cyto')));
-    //app.use(favicon(path.join(root, 'public/images/favicon.ico')));
 
+    //default routes
+    app.get('/', function(req, res) {
+      res.render('index', { title: 'cyto' } );
+    });
 
     server.listen(app.get('port'), function(){
       console.log('   info  - '.cyan + 'cyto server listening on port ' + app.get('port'));
     });
-
   }
 };
