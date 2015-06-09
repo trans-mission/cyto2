@@ -41,18 +41,8 @@ var cyto = function(rendererType, canvasId) {
       cyto.drawEngine.start(cyto.canvas);
     }
 
-    function captureEvents(object, events) {
-      events.forEach(function(e) {
-        if(!cyto._eventsList[object]) cyto._eventsList[object] = [];
-        cyto._eventsList[object].push(e);
-      });
-    }
-
-    function hasEvents(object) {
-      return (object.events !== undefined);
-    }
-
     function makeRootAccessible(target) {
+      var p;
       for(var obj in target) {
         if(typeof(target[obj]) === 'object' && target[obj]._rootAccessible) {
           // apply instance methods & properties onto the root
@@ -93,12 +83,7 @@ var cyto = function(rendererType, canvasId) {
             }
           }
           //  apply the prototype properties and methods onto the root
-          var p = Object.getPrototypeOf(target[obj]);
-
-            //TODO: capture events for subclass (is target even necessary???)
-            // if(target._hasEvents(proto)) {
-            //   target._captureEvents(object, proto.events);
-            // }
+          p = Object.getPrototypeOf(target[obj]);
           for(var key in p) {
             if(p.hasOwnProperty(key) && !String(key).match(/_/)) {
               if(typeof(p[key]) === 'function') {
