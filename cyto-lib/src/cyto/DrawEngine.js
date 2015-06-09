@@ -4,6 +4,12 @@ var DrawEngine = function() {
 
   cyto.eventDispatcher.apply(self); //add this class to the events class (dispatcher)
 
+  // self.addEventListener('update', function(){
+  //   //console.log(1);
+  //   console.log(self.hasEventListener());
+  // });
+
+
   self.start =  function(canvas, setFrameRate) {
     this.frameRate = setFrameRate || false;
     this.canvas    = canvas;

@@ -5,4 +5,7 @@
 
 var View = function() {
 
+  cyto.eventDispatcher.apply(this);
+
+  console.log(cyto.eventDispatcher);
 };

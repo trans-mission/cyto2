@@ -5,12 +5,7 @@
  */
 
   var EventDispatcher = function(target) {
-
-    if(target !== undefined) {
-      this.apply(target);
-    } else {
-      this.apply(cyto);
-    }
+    this.apply(cyto);
   };
 
   EventDispatcher.prototype = {
@@ -50,24 +45,35 @@
 
       if(!listeners[type]) listeners[type] = [];
       if(listeners[type].indexOf(listener) === - 1) listeners[type].push(listener);
+      console.log(listeners);
     },
 
     hasEventListener: function (type, listener) {
-      if(this._listeners === undefined ) return false;
-
       var listeners = this._listeners;
 
-      if (listeners[type] !== undefined &&
-          listeners[type].indexOf(listener) !== - 1) {
+      if(listeners === undefined ) {
+        return false;
+      } else
 
+      if(type      === undefined &&
+         listener  === undefined &&
+         listeners !== undefined) {
+           return true;
+       } else
+
+       if (listeners[type] !== undefined &&
+          listeners[type].indexOf(listener) !== - 1) {
         return true;
       } else {
+
         return false;
       }
     },
 
     removeEventListener: function (type, listener) {
       if(this._listeners === undefined ) return;
+
+
 
       var listeners = this._listeners;
       var listenerArray = listeners[ type ];
@@ -83,6 +89,8 @@
 
     dispatchEvent: function (event) {
       if (this._listeners === undefined) return;
+
+
 
       var listeners = this._listeners;
       var listenerArray = listeners[ event.type ];
