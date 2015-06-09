@@ -101,7 +101,6 @@ var Renderer = function() {
   Object.defineProperty(this, 'width', {
     get: function() {  return this._canvas.width },
     set: function(w) {
-      console.log("-----------------------------");
       this._canvas.style.width = w + 'px';
       this._canvas.width       = w;
       this._canvas.setAttribute('width', w);
@@ -143,9 +142,10 @@ Renderer.prototype.background = function (c) { //short hand
 Renderer.prototype.clear = function () {
   this._context.save(); //save the context on a stack
   this._context.fillStyle = this.background;
-  this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);  // now fill the canvas
+  // now fill the canvas
+  this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
   this._context.restore(); //save the context on a stack
-}
+};
 
 Renderer.prototype.beginPath = function () {
   this._context.beginPath();
