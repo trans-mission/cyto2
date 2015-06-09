@@ -55,12 +55,14 @@ DrawEngine.prototype.animate = function (time) {
   if(cyto.update && typeof(cyto.update) === 'function') {
     cyto.update();
 
-    self.dispatchEvent({type: 'update', message: ''}); //emit update event
+    //global update event
+    cyto.dispatchEvent({type: 'update', message: ''}); //emit update event
   }
 
   //if a draw function has been registered, call it for each animation loop
   if(cyto.draw && typeof(cyto.draw) === 'function') {
 
+    //TODO: not sure if these items are just old, but consider moving to renderer
     // if(self.options.clearTransforms)  { //DEPRECATED: TODO: move to canvas class
     //   self.context.setTransform(1, 0, 0, 1, 0, 0); //remove translations/transforms by seting to identity matrix
     // }
