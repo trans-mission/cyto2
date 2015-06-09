@@ -1,43 +1,38 @@
 var DrawEngine = function() {
 
-  var self = this;
-
-  cyto.eventDispatcher.apply(self); //add this class to the events class (dispatcher)
-
-  // self.addEventListener('update', function(){
-  //   //console.log(1);
-  //   console.log(self.hasEventListener());
-  // });
+  this._rootAccessible = true;
 
 
-  self.start =  function(canvas, setFrameRate) {
-    this.frameRate = setFrameRate || false;
-    this.canvas    = canvas;
-    this.context   = canvas.getContext('2d');
-    this.lastRun   = this.getTimeNow();
-    this.frameRate = false;
-    this.fps       = 0;
+  cyto.eventDispatcher.apply(this); //add this class to the events class (dispatcher)
 
+  this.context    = cyto.canvas.getContext('2d');
+  this._lastRun   = this._getTimeNow();
+  this._frameRate = 60;
 
-    //TODO: figure out how to use an inheritance model to make this more modular
+  // getters and setters
+  Object.defineProperty(this, 'fps', {
+    get: function()  { return this._fps },
+    enumerable: true
+  });
+
+  Object.defineProperty(this, 'frameRate', {
+    get: function()  { return this._frameRate },
+    set: function(r) { this._frameRate = r    },
+    enumerable: true
+  });
+
+  this.start = function() {
+    this._lastRun  = this._getTimeNow();
+    this._fps      = 0; // frames per second
+
     if(cyto.setup && typeof(cyto.setup) === 'function') {
       cyto.setup();
     }
 
-    self.animationId = window.requestAnimationFrame(function(time) {
-      self.animate.call(self, time); // self is the game
-    });
+    this.animationId = window.requestAnimationFrame(function(time) {
+      this.animate.call(this, time); // this is the game
+    }.bind(this));
   };
-};
-
-/**
-* @method getTimeNow
-* @returns {Number} Return the number of milliseconds since 1970/01/01:
-*/
-
-DrawEngine.prototype.getTimeNow = function() {
-
-  return new Date().getTime();
 };
 
 /**
@@ -48,8 +43,9 @@ DrawEngine.prototype.animate = function (time) {
 
   var self = this; // window.requestNextAnimationFrame() called by DOMWindow
 
-  self.time = time;
-  self.calcFps(time); // update fps time
+  this.time = time;
+  this._fps = this._calcFps(time); // update fps time
+  this._lastRun = this._getTimeNow();
 
   //if an update function has been registered, call it for each animation loop
   if(cyto.update && typeof(cyto.update) === 'function') {
@@ -61,53 +57,44 @@ DrawEngine.prototype.animate = function (time) {
 
   //if a draw function has been registered, call it for each animation loop
   if(cyto.draw && typeof(cyto.draw) === 'function') {
-
-    //TODO: not sure if these items are just old, but consider moving to renderer
-    // if(self.options.clearTransforms)  { //DEPRECATED: TODO: move to canvas class
-    //   self.context.setTransform(1, 0, 0, 1, 0, 0); //remove translations/transforms by seting to identity matrix
-    // }
-    //
-    // if(self.options.clearBackground)  { //DEPRECATED: TODO: move to canvas class
-    //   self.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // }
-
     cyto.draw(time);
   }
 
-  if(self.frameRate) { //if specifying a framerate, don't use rAF
+  if(this._frameRate) { //if specifying a framerate, don't use rAF
     setTimeout(function() {
 
-      time = this.getTimeNow() + 1000/self.frameRate; //next scheduled cycle
-      self.animate.call(self, time);
+      // 2nd arg passes next scheduled cycle
+      this.animate.call(this, this._getTimeNow() + 1000/this._frameRate);
 
-    }, 1000/self.frameRate);
+    }.bind(this), 1000/this._frameRate);
 
   } else { //rAF is locked to monitor's sync, typically 60 Hz, so we can't adjust the FPS for it in itself
 
     //requestionAnimationFrame() callback routine must itself call requestAnimationFrame()
     //in order to animate another frame at the next repaint.
-    self.animationId = window.requestAnimationFrame(function(time) {
-      self.animate.call(self, time);
-    });
+    this.animationId = window.requestAnimationFrame( function(time) {
+      this.animate.call(this, time);
+    }.bind(this));
   }
 };
 
 /**
-* @method calcFps
+* @method _calcFps
 */
 
-DrawEngine.prototype.calcFps = function (time) {
+DrawEngine.prototype._calcFps = function (time) {
   //calculates fps by taking frame delta, and then rounds to the nearest hundreth
-  this.fps = Math.round(1 / ((this.getTimeNow() - this.lastRun) / 1000) * 100) / 100;
-  this.lastRun = this.getTimeNow();
+  return Math.round(1 / ((this._getTimeNow() - this._lastRun) / 1000) * 100) / 100;
 };
 
 /**
-* @method getFps
+* @method _getTimeNow
+* @returns {Number} Return the number of milliseconds since 1970/01/01:
 */
 
-DrawEngine.prototype.getFps = function () {
-  return this.fps;
+DrawEngine.prototype._getTimeNow = function() {
+
+  return new Date().getTime();
 };
 
 /**
