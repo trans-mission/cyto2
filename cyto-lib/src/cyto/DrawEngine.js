@@ -2,10 +2,8 @@ var DrawEngine = function() {
 
   this._rootAccessible = true;
 
-
   cyto.eventDispatcher.apply(this); //add this class to the events class (dispatcher)
 
-  this.context    = cyto.canvas.getContext('2d');
   this._lastRun   = this._getTimeNow();
   this._frameRate = 60;
 
