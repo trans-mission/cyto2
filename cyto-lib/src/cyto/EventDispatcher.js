@@ -49,11 +49,8 @@
     },
 
     hasEventListener: function (type, listener) {
+      if(this._listeners === undefined ) return; //short-circuit
       var listeners = this._listeners;
-
-      if(listeners === undefined ) {
-        return false;
-      } else
 
       if(type      === undefined &&
          listener  === undefined &&
@@ -71,7 +68,7 @@
     },
 
     removeEventListener: function (type, listener) {
-      if(this._listeners === undefined ) return;
+      if(this._listeners === undefined ) return; //short-circuit
 
 
 
@@ -88,9 +85,7 @@
     },
 
     dispatchEvent: function (event) {
-      if (this._listeners === undefined) return;
-
-
+      if (this._listeners === undefined) return; //short-circuit
 
       var listeners = this._listeners;
       var listenerArray = listeners[ event.type ];
