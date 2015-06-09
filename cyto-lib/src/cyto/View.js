@@ -1,11 +1,25 @@
 /**
 * Cyto View Class
+*
 * @class View
 */
 
 var View = function() {
 
-  cyto.eventDispatcher.apply(this);
+  this._rootAccessible = true;
+  this.canvas = cyto.canvas;
 
-  console.log(cyto.eventDispatcher);
+  cyto.eventDispatcher.apply(this);
+};
+
+/**
+* reset
+*
+* @method reset
+*/
+
+View.prototype.reset = function () {
+
+  this.canvas.width  = window.innerWidth;
+  this.canvas.height = window.innerHeight;
 };

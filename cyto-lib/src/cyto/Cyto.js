@@ -18,6 +18,7 @@ var cyto = function(rendererType, canvasId) {
     cyto.sketch = cyto.canvas.getAttribute('data-sketch');
     cyto.path   = '/sketches/'
 
+    //initialize all subclasses
     cyto.utils           = new Utils();
     cyto.eventDispatcher = new EventDispatcher();
     cyto.view            = new View();
@@ -27,8 +28,8 @@ var cyto = function(rendererType, canvasId) {
     cyto.drawEngine      = new DrawEngine();
     cyto.ellipse         = new Ellipse();
 
-
-    cyto.utils.getRootAccessProps(cyto);
+    //put root accesible props on cyto object (global access)
+    cyto.utils.accessRootProps(cyto);
 
     //load sketch
     cyto.loader.loadSketch(cyto.path + cyto.sketch, init.bind(this));
@@ -37,13 +38,11 @@ var cyto = function(rendererType, canvasId) {
     function init() {
 
       //maximize canvas view
-      cyto.width   = window.innerWidth;
-      cyto.height  = window.innerHeight;
-      //cyto.view.init();
+      cyto.reset();
 
+      //start drawing engine
       cyto.start();
     }
-
   };
 
   return new Cyto(rendererType, canvasId);

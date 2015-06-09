@@ -1,6 +1,6 @@
 var Utils = function() {};
 
-Utils.prototype.getRootAccessProps = function (target) {
+Utils.prototype.accessRootProps = function (target) {
   var p;
   for(var obj in target) {
     if(typeof(target[obj]) === 'object' && target[obj]._rootAccessible) {
@@ -65,22 +65,6 @@ Utils.prototype.getRootAccessProps = function (target) {
 //
 //   cyUtils = {
 //
-//     bindObjects: function(targObj, srcObj, filterInc, filterExc) {
-//       for(var key in srcObj) {
-//
-//         if(filterInc && this.contains(filterInc, key) ||
-//            filterInc === undefined) {
-//           if(filterExc && !filterExc.hasOwnProperty(key) ||
-//              filterExc === undefined) {
-//             if(typeof srcObj[key] === 'function') {
-//               targObj[key] = srcObj[key].bind(srcObj);
-//             } else {
-//               targObj[key] = srcObj[key];
-//             }
-//           }
-//         }
-//       }
-//     },
 //
 //     _componentToHex: function (c) {
 //       var hex = c.toString(16);
@@ -115,30 +99,6 @@ Utils.prototype.getRootAccessProps = function (target) {
 //         list.push(key);
 //       }
 //       return list;
-//     },
-//
-//     getRootInstance: function () {
-//       var object      = window
-//         , hasInstance = false
-//         , root;
-//
-//       do {
-//         if(hasInstance) break;
-//         try {
-//           Object.getOwnPropertyNames(object).forEach(function(name) {
-//
-//             if(name === 'webkitStorageInfo') return; //deprectated window object
-//
-//             if(object[name] instanceof cyConstants.ROOT_CLASS) {
-//               root = object[name];
-//               hasInstance = true;
-//             }
-//           });
-//         } catch(e) {
-//           console.error(e);
-//         }
-//       } while(object = Object.getPrototypeOf(object));
-//       return (root !== undefined) ? root: false;
 //     },
 //
 //     hexToRgb: function(hex) {
