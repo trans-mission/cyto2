@@ -18,11 +18,12 @@ var cyto = function(rendererType, canvasId) {
     cyto.sketch = cyto.canvas.getAttribute('data-sketch');
     cyto.path   = '/sketches/'
 
+    cyto.eventDispatcher = new EventDispatcher();
+    cyto.view            = new View();
     cyto.errors          = new ErrorMessages();
     cyto.renderer        = new Renderer();
-    cyto.eventDispatcher = new EventDispatcher();
-    cyto.loader          = new Loader(cyto);
-    cyto.drawEngine      = new DrawEngine(cyto);
+    cyto.loader          = new Loader();
+    cyto.drawEngine      = new DrawEngine();
     cyto.ellipse         = new Ellipse();
 
     makeRootAccessible(cyto);

@@ -1,10 +1,8 @@
-var DrawEngine = function(root, options) {
+var DrawEngine = function() {
 
   var self = this;
 
-  self.options = options || {};
-
-  root.eventDispatcher.apply(self); //add this class to the events class (dispatcher)
+  cyto.eventDispatcher.apply(self); //add this class to the events class (dispatcher)
 
   self.start =  function(canvas, setFrameRate) {
     this.frameRate = setFrameRate || false;
@@ -57,13 +55,13 @@ DrawEngine.prototype.animate = function (time) {
   //if a draw function has been registered, call it for each animation loop
   if(cyto.draw && typeof(cyto.draw) === 'function') {
 
-    if(self.options.clearTransforms)  { //DEPRECATED: TODO: move to canvas class
-      self.context.setTransform(1, 0, 0, 1, 0, 0); //remove translations/transforms by seting to identity matrix
-    }
-
-    if(self.options.clearBackground)  { //DEPRECATED: TODO: move to canvas class
-      self.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
+    // if(self.options.clearTransforms)  { //DEPRECATED: TODO: move to canvas class
+    //   self.context.setTransform(1, 0, 0, 1, 0, 0); //remove translations/transforms by seting to identity matrix
+    // }
+    //
+    // if(self.options.clearBackground)  { //DEPRECATED: TODO: move to canvas class
+    //   self.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // }
 
     cyto.draw(time);
   }

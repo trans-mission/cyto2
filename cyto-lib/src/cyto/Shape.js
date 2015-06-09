@@ -14,7 +14,7 @@ Shape.prototype.move = function() {
 
 };
 
-Shap.prototype.createPath = function() {
+Shape.prototype.createPath = function() {
 
 };
 
@@ -22,8 +22,8 @@ Shape.prototype.getAxes = function() {
 
 };
 
-Shape.isPointInPath = function() {
-  
+Shape.prototype.isPointInPath = function() {
+
 }
 
 //   p.project = function(axis) {

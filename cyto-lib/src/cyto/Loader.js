@@ -1,4 +1,4 @@
-var Loader = function(target) {
+var Loader = function() {
 
 };
 
