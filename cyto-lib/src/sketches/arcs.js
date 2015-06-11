@@ -13,7 +13,7 @@ cyto.setup = function() {
   cy.strokeStyle = '#fff';
   cy.fillStyle = '#fff';
 
-  console.log(cy.strokeStyle);
+  //cy.noLoop();
 }
 
 /* Update

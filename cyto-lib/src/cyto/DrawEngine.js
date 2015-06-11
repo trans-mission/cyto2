@@ -1,11 +1,12 @@
 var DrawEngine = function() {
 
   this._rootAccessible = true;
-
-  cyto.eventDispatcher.apply(this); //add this class to the events class (dispatcher)
-
   this._lastRun   = this._getTimeNow();
+  this._noLoop    = false;
   this._frameRate = 60;
+
+  //add this class to the events class (dispatcher)
+  cyto.eventDispatcher.apply(this);
 
   // getters and setters
   Object.defineProperty(this, 'fps', {
@@ -58,6 +59,8 @@ DrawEngine.prototype.animate = function (time) {
     cyto.draw(time);
   }
 
+  if(this._noLoop) return;
+
   if(this._frameRate) { //if specifying a framerate, don't use rAF
     setTimeout(function() {
 
@@ -93,6 +96,14 @@ DrawEngine.prototype._calcFps = function (time) {
 DrawEngine.prototype._getTimeNow = function() {
 
   return new Date().getTime();
+};
+
+/**
+* @method noLoop
+*/
+
+DrawEngine.prototype.noLoop = function () {
+  this._noLoop = true;
 };
 
 /**
