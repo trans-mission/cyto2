@@ -1,6 +1,17 @@
+var CYTO = (CYTO) ? CYTO : {};
+
 var Shape = function() {
 
+  var $ = this;
+
+  $.context = cyto.getContext();
+
+  console.log("instantiated new shape");
+
 };
+
+//Shape.prototype = new DisplayObject();
+
 
 Shape.prototype.collidesWith = function() {
 
@@ -25,12 +36,3 @@ Shape.prototype.getAxes = function() {
 Shape.prototype.isPointInPath = function() {
 
 }
-
-//   p.project = function(axis) {
-//     throw 'project(axis) not implemented';
-//   };
-//
-//   p.isPointInPath = function(context, x, y) {
-//     this.createPath(context);
-//     return context.isPointInPath(x, y);
-//   };

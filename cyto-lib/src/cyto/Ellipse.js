@@ -1,14 +1,15 @@
 var Ellipse = function() {
 
-  this._rootAccessible = true;
+  var $ = this;
 
-  this._context = cyto.renderer.getContext();
-
+  $._rootAccessible = true;
+  $._context = cyto.renderer.getContext();
 }
 
 Ellipse.prototype.arc = function(x, y, radius, startAngle, anticlockwise) {
-  this._context.arc(x, y, radius, startAngle, anticlockwise);
-}
+  var $ = this;
+  $._context.arc(x, y, radius, startAngle, anticlockwise);
+};
 
 
 //

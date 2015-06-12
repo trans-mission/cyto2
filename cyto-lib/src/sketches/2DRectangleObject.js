@@ -1,5 +1,6 @@
-var rectangle
-  , disableLoop = false;
+var cy = cyto
+  , rectangle
+  ;
 
 /* Setup
   --------------------------------------------------- */
@@ -13,14 +14,18 @@ cyto.setup = function() {
     fillStyle: 'darkblue'
   });
 
-  /* note: 
+  console.log(rectangle);
+
+  /* note:
     if no draw loop is used the object can still
-    be drawn to the view and is even draggable. this can be 
+    be drawn to the view and is even draggable. this can be
     tested by disabling the draw loop at the top
   */
 
-  //draw loop 
+  //draw loop
   rectangle.draw();
+
+  cy.noLoop();
 }
 
 /* Update
@@ -33,20 +38,18 @@ cyto.update = function() {
   --------------------------------------------------- */
 cyto.draw = function() {
 
-  if(disableLoop) return; //skips draw functions when disabled
-
   cy.bg('#011722');
-  
-  rectangle.draw();
 
-  //draws directly from root object (not preserved)
-  cy.fill('lightblue');
-  cy.noStroke();
-  cy.drawCenter = true;
-  cy.rect(400, 400, 200, 200, 30);
-
-  cy.noFill();
-  cy.stroke('orange');
-  cy.drawCenter = false;
-  cy.rect(500, 200, 100, 100, 20);
+  // rectangle.draw();
+  //
+  // //draws directly from root object (not preserved)
+  // cy.fill('lightblue');
+  // cy.noStroke();
+  // cy.drawCenter = true;
+  // cy.rect(400, 400, 200, 200, 30);
+  //
+  // cy.noFill();
+  // cy.stroke('orange');
+  // cy.drawCenter = false;
+  // cy.rect(500, 200, 100, 100, 20);
 }

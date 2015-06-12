@@ -1,49 +1,43 @@
 "use strict"
 
-/**
-* Cyto Library Class
-* @class Cyto
-*/
+// library initialization function
 
-//wrapper to kick off library
 var cyto = function(rendererType, canvasId) {
 
-  var Cyto = function(rendererType, canvasId) {
 
-    cyto = this; //global cyto object (overwrites init cyto function)
+    $ = cyto = CYTO;
 
-    cyto.rendererType  = rendererType;
-
-    cyto.canvas = document.getElementById(canvasId);
-    cyto.sketch = cyto.canvas.getAttribute('data-sketch');
-    cyto.path   = '/sketches/'
+    $.rendererType  = rendererType;
+    $.canvas = document.getElementById(canvasId);
+    $.sketch = $.canvas.getAttribute('data-sketch');
+    $.path   = '/sketches/'
 
     //initialize all subclasses
-    cyto.utils           = new Utils();
-    cyto.eventDispatcher = new EventDispatcher();
-    cyto.view            = new View();
-    cyto.errors          = new ErrorMessages();
-    cyto.renderer        = new Renderer();
-    cyto.loader          = new Loader();
-    cyto.drawEngine      = new DrawEngine();
-    cyto.ellipse         = new Ellipse();
+    $.utils           = new Utils();
+    $.eventDispatcher = new EventDispatcher();
+    $.view            = new View();
+    $.errors          = new ErrorMessages();
+    $.renderer        = new Renderer();
+    $.loader          = new Loader();
+    $.drawEngine      = new DrawEngine();
+    $.ellipse         = new Ellipse();
+    //$.rectangle       = new $.Rectangle();
 
-    //put root accesible props on cyto object (global access)
-    cyto.utils.accessRootProps(cyto);
+    //put root accesible props on $ object (global access)
+    $.utils.accessRootProps($);
 
     //load sketch
-    cyto.loader.loadSketch(cyto.path + cyto.sketch, init.bind(this));
+    $.loader.loadSketch($.path + $.sketch, init);
 
     //initialize sketch
     function init() {
 
       //maximize canvas view
-      cyto.reset();
+      $.reset();
 
       //start drawing engine
-      cyto.start();
+      $.start();
     }
-  };
 
-  return new Cyto(rendererType, canvasId);
+  // return new Cyto(rendererType, canvasId);
 };
