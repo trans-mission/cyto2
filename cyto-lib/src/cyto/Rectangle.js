@@ -1,8 +1,6 @@
 var CYTO = (CYTO) ? CYTO : {};
 (function(root) {
 
-  var $;
-
   /**
    * Creates an Rectangle object
    *
@@ -17,7 +15,8 @@ var CYTO = (CYTO) ? CYTO : {};
 
   var Rectangle = function(opt) {
 
-    $ = this;
+    var $ = this;
+
     $._rootAccessible = false;
 
     $.renderer = cyto.renderer;
@@ -62,12 +61,13 @@ var CYTO = (CYTO) ? CYTO : {};
   * @param {Number} y The top left y coordinate
   * @param {Number} w The w of the rectangle
   * @param {Number} h The h of the rectangle
-  * @param r {Number} radius The corner radius. Defaults to 5;
+  * @param {Number} radius The corner radius. Defaults to 5;
   * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
   * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
   */
 
   Rectangle.prototype.rect = function (x, y, w, h, r) {
+    var $ = this;
 
     r = r || 0;
 
@@ -78,6 +78,7 @@ var CYTO = (CYTO) ? CYTO : {};
 
     $.renderer.beginPath();
     $.renderer.moveTo(x + r, y);
+
     $.renderer.lineTo(x + w - r, y);
     $.renderer.quadraticCurveTo(x + w, y, x + w, y + r);
     $.renderer.lineTo(x + w, y + h - r);
@@ -86,6 +87,7 @@ var CYTO = (CYTO) ? CYTO : {};
     $.renderer.quadraticCurveTo(x, y + h, x, y + h - r);
     $.renderer.lineTo(x, y + r);
     $.renderer.quadraticCurveTo(x, y, x + r, y);
+
     $.renderer.closePath();
     $.renderer.stroke();
     $.renderer.fill();
@@ -94,7 +96,11 @@ var CYTO = (CYTO) ? CYTO : {};
 
   /* private functions
      -------------------------------------------------- */
+
   Rectangle.prototype._draw = function() {
+    var $ = this;
+
+    //injects local style then restores the renderer
 
     if(!$.hasBeenDrawn) $._hasBeenDrawn = true;
 

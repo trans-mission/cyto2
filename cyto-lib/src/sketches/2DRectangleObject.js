@@ -7,11 +7,13 @@ var cy = cyto
 cyto.setup = function() {
 
   rectangle = new cy.Rectangle({
-    x: 100,
-    y: 100,
-    drawCenter: true,
-    draggable: true,
-    fillStyle: 'red'
+    w: 100,
+    h: 400,
+    x: 10,
+    y: 10,
+    drawCenter : false,
+    draggable  :  true,
+    fillStyle  : 'lightblue'
   });
 
   /* note:
@@ -20,10 +22,6 @@ cyto.setup = function() {
     tested by disabling the draw loop at the top
   */
 
-  //draw loop
-  rectangle.draw();
-
-  //cy.noLoop();
 }
 
 /* Update
@@ -36,18 +34,18 @@ cyto.update = function() {
   --------------------------------------------------- */
 cyto.draw = function() {
 
+  cy.noLoop();
+
   cy.bg('#011722');
 
   rectangle.draw();
 
-  //draws directly from root object (not preserved)
-  // cy.fill('lightblue');
-  // cy.noStroke();
-  // cy.drawCenter = true;
-  // cy.rect(400, 400, 200, 200, 30);
-  //
-  // cy.noFill();
-  // cy.stroke('orange');
-  // cy.drawCenter = false;
-  // cy.rect(500, 200, 100, 100, 20);
+  cy.noStroke();
+  cy.fill('burlywood');
+  cy.rect(100, 100, 400, 400, 20);
+
+  // //draws directly from root object (not preserved)
+  cy.noFill();
+  cy.stroke('blue');
+  cy.rect(300, 50, 100, 100, 20);
 }

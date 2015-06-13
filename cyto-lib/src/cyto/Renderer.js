@@ -172,9 +172,13 @@ Renderer.prototype.save = function() {
 
 //Strokes the subpaths with the current stroke style
 Renderer.prototype.stroke = function (c) {
-  if(c !== undefined) this.strokeStyle = c;
-  this.hasStroke = true;
-  this._context.stroke();
+  if(c !== undefined) {
+    this.strokeStyle = c;
+    this.hasStroke = true;
+  }
+  if(this.hasStroke) {
+    this._context.stroke();
+  }
 };
 
 Renderer.prototype.noStroke = function (color) {
@@ -183,9 +187,13 @@ Renderer.prototype.noStroke = function (color) {
 };
 
 Renderer.prototype.fill = function (c) {
-  if(c !== undefined) this.fillStyle = c;
-  this.hasFill  = true;
-  this._context.fill();
+  if(c !== undefined) {
+    this.fillStyle = c;
+    this.hasFill  = true;
+  }
+  if(this.hasFill) {
+    this._context.fill();
+  }
 };
 
 Renderer.prototype.lineTo = function(x, y) {
@@ -202,7 +210,7 @@ Renderer.prototype.noFill = function () {
 };
 
 Renderer.prototype.quadraticCurveTo = function(cpx, cpy, x, y) {
-  this._context.quadraticCurveTo(cpy, cpy, x, y);
+  this._context.quadraticCurveTo(cpx, cpy, x, y);
 };
 
 Renderer.prototype.restore = function() {
