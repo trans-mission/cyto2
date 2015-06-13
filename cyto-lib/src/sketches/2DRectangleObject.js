@@ -11,10 +11,8 @@ cyto.setup = function() {
     y: 100,
     drawCenter: true,
     draggable: true,
-    fillStyle: 'darkblue'
+    fillStyle: 'red'
   });
-
-  console.log(rectangle);
 
   /* note:
     if no draw loop is used the object can still
@@ -25,7 +23,7 @@ cyto.setup = function() {
   //draw loop
   rectangle.draw();
 
-  cy.noLoop();
+  //cy.noLoop();
 }
 
 /* Update
@@ -40,9 +38,9 @@ cyto.draw = function() {
 
   cy.bg('#011722');
 
-  // rectangle.draw();
-  //
-  // //draws directly from root object (not preserved)
+  rectangle.draw();
+
+  //draws directly from root object (not preserved)
   // cy.fill('lightblue');
   // cy.noStroke();
   // cy.drawCenter = true;

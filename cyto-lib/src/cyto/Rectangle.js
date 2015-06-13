@@ -1,6 +1,8 @@
 var CYTO = (CYTO) ? CYTO : {};
 (function(root) {
 
+  var $;
+
   /**
    * Creates an Rectangle object
    *
@@ -9,15 +11,16 @@ var CYTO = (CYTO) ? CYTO : {};
    * @param opt        {Object}  - configuration opt for ellipse object
    * @param opt.x      {Number}  - center x coordinate of the ellipse
    * @param opt.y      {Number}  - center y coordinate of the ellipse
-   * @param opt.width  {Number}  - width of the ellipse
-   * @param opt.height {Number}  - height of the ellipse
+   * @param opt.w  {Number}  - w of the ellipse
+   * @param opt.h {Number}  - h of the ellipse
    */
 
   var Rectangle = function(opt) {
 
-    var $ = this;
+    $ = this;
+    $._rootAccessible = false;
 
-    $._context = cyto.renderer.getContext();
+    $.renderer = cyto.renderer;
 
     // set constructor opt
     $.drawCenter  = (opt && opt.drawCenter)  ? opt.drawCenter  : false;
@@ -27,31 +30,25 @@ var CYTO = (CYTO) ? CYTO : {};
     $.draggable   = (opt && opt.draggable)   ? true            : false;
 
     //private properties
-    $._width  = (opt && opt.width)  ? opt.width  : 100;
-    $._height = (opt && opt.height) ? opt.height : 100;
+    $.w = (opt && opt.w) ? opt.w : 100;
+    $.h = (opt && opt.h) ? opt.h : 100;
 
-    $._x = (opt && opt.x) ? ($.drawCenter) ?
-           (opt.x - $._width) / 2 : opt.x :
-           ($.drawCenter) ? - $._width/2 : 0;
+    $.x = (opt && opt.x) ? ($.drawCenter) ?
+          (opt.x - $.w) / 2 : opt.x : ($.drawCenter) ? - $.w/2 : 0;
 
-    $._y = (opt && opt.y) ? ($.drawCenter) ?
-           (opt.y - $._height) / 2 : opt.y :
-           ($.drawCenter) ? - $._height/2 : 0;
+    $.y = (opt && opt.y) ? ($.drawCenter) ?
+          (opt.y - $.h) / 2 : opt.y : ($.drawCenter) ? - $.h/2 : 0;
 
-    $._hasFill   = (opt && opt.fillStyle);
-    $._hasStroke = true;
+    $.hasFill   = (opt && opt.fillStyle);
+    $.hasStroke = true;
 
-    $.top    = $._y;
-    $.bottom = $._y + $._height;
-    $.left   = $._x;
-    $.right  = $._x + $._width;
+    $.top    = $.y;
+    $.bottom = $.y + $.h;
+    $.left   = $.x;
+    $.right  = $.x + $.w;
 
-    console.log("initialize rect");
     //public methods reserved for instantiated class objects
     $.draw = $._draw;
-
-    console.log($._draw);
-    //console.log(Object.getPrototypeOf(this));
   };
 
   /* public methods
@@ -63,15 +60,14 @@ var CYTO = (CYTO) ? CYTO : {};
   * @param {CanvasRenderingContext2D} ctx
   * @param {Number} x The top left x coordinate
   * @param {Number} y The top left y coordinate
-  * @param {Number} width The width of the rectangle
-  * @param {Number} height The height of the rectangle
+  * @param {Number} w The w of the rectangle
+  * @param {Number} h The h of the rectangle
   * @param r {Number} radius The corner radius. Defaults to 5;
   * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
   * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
   */
 
   Rectangle.prototype.rect = function (x, y, w, h, r) {
-    var $ = this;
 
     r = r || 0;
 
@@ -80,43 +76,42 @@ var CYTO = (CYTO) ? CYTO : {};
       y = y - h / 2.0;
     }
 
-    $.beginPath();
-    $.moveTo(x + r, y);
-    $.lineTo(x + w - r, y);
-    $.quadraticCurveTo(x + w, y, x + w, y + r);
-    $.lineTo(x + w, y + h - r);
-    $.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    $.lineTo(x + r, y + h);
-    $.quadraticCurveTo(x, y + h, x, y + h - r);
-    $.lineTo(x, y + r);
-    $.quadraticCurveTo(x, y, x + r, y);
-    $.closePath();
-    $.stroke();
-    $.fill();
-    $.clearPath();
+    $.renderer.beginPath();
+    $.renderer.moveTo(x + r, y);
+    $.renderer.lineTo(x + w - r, y);
+    $.renderer.quadraticCurveTo(x + w, y, x + w, y + r);
+    $.renderer.lineTo(x + w, y + h - r);
+    $.renderer.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    $.renderer.lineTo(x + r, y + h);
+    $.renderer.quadraticCurveTo(x, y + h, x, y + h - r);
+    $.renderer.lineTo(x, y + r);
+    $.renderer.quadraticCurveTo(x, y, x + r, y);
+    $.renderer.closePath();
+    $.renderer.stroke();
+    $.renderer.fill();
+    $.renderer.clearPath();
   };
 
   /* private functions
      -------------------------------------------------- */
   Rectangle.prototype._draw = function() {
-    var $ = this;
 
-    if(!$._hasBeenDrawn) $._hasBeenDrawn = true;
+    if(!$.hasBeenDrawn) $._hasBeenDrawn = true;
 
     if($ instanceof Rectangle) {
-      $.save();
-      if($._hasStroke) {
-        $.stroke($.strokeStyle);
+      $.renderer.save();
+      if($.hasStroke) {
+        $.renderer.stroke($.strokeStyle);
       } else {
-        $.noStroke();
+        $.renderer.noStroke();
       }
-      if($._hasFill) {
-        $.fill($.fillStyle);
+      if($.hasFill) {
+        $.renderer.fill($.fillStyle);
       } else {
-        $.noFill();
+        $.renderer.noFill();
       }
-      $.rect($.x, $.y, $.width, $.height, $.radius);
-      $.restore();
+      $.rect($.x, $.y, $.w, $.h, $.radius);
+      $.renderer.restore();
     }
   };
 

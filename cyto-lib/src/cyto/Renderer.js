@@ -121,22 +121,25 @@ var Renderer = function() {
 
 
 Renderer.prototype.applyBackground = function (c) {
+  var $ = this;
 
   //save the context on a stack
-  this._context.save();
-  this._context.fillStyle = c;
+  $._context.save();
+  $._context.fillStyle = c;
 
   // now fill the canvas
-  this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-  this._context.restore();
+  $._context.fillRect(0, 0, $._canvas.width, $._canvas.height);
+  $._context.restore();
 };
 
 Renderer.prototype.bg = function (c) { //short hand
-  this.background(c);
+  var $ = this;
+  $.background(c);
 };
 
 Renderer.prototype.background = function (c) { //short hand
-  this.applyBackground(c);
+  var $ = this;
+  $.applyBackground(c);
 };
 
 Renderer.prototype.clear = function () {
@@ -155,8 +158,16 @@ Renderer.prototype.clearPath = function () {
   this._context.beginPath();
 };
 
+Renderer.prototype.closePath = function() {
+  this._context.closePath();
+};
+
 Renderer.prototype.getContext = function () {
   return this._context;
+};
+
+Renderer.prototype.save = function() {
+  this._context.save();
 };
 
 //Strokes the subpaths with the current stroke style
@@ -177,7 +188,23 @@ Renderer.prototype.fill = function (c) {
   this._context.fill();
 };
 
+Renderer.prototype.lineTo = function(x, y) {
+  this._context.lineTo(x, y);
+};
+
+Renderer.prototype.moveTo = function(x, y) {
+  this._context.moveTo(x, y);
+};
+
 Renderer.prototype.noFill = function () {
   this.hasFill = false;
   //this.strokeStyle = 'rgba(0,0,0,0)';
+};
+
+Renderer.prototype.quadraticCurveTo = function(cpx, cpy, x, y) {
+  this._context.quadraticCurveTo(cpy, cpy, x, y);
+};
+
+Renderer.prototype.restore = function() {
+  this._context.restore();
 };

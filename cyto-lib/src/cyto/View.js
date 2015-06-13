@@ -6,20 +6,18 @@
 
 var View = function() {
 
-  var _ = this;
+  var $ = this;
 
-  _._rootAccessible = true;
-  _.canvas = cyto.canvas;
+  $._rootAccessible = true;
+  $.canvas = cyto.canvas;
 
-  cyto.eventDispatcher.apply(_);
+  cyto.eventDispatcher.apply($);
 
   // add global event handlers
   var _resetTO;
   window.onresize = function() {
     if(_resetTO) clearTimeout(_resetTO);
-    _resetTO = setTimeout(function() {
-      _.reset();
-    }, 180);
+    _resetTO = setTimeout($.reset.bind($), 180);
   };
 };
 
@@ -30,7 +28,7 @@ var View = function() {
 */
 
 View.prototype.reset = function () {
-  var _ = this;
-  _.canvas.width  = window.innerWidth;
-  _.canvas.height = window.innerHeight;
+  var $ = this;
+  $.canvas.width  = window.innerWidth;
+  $.canvas.height = window.innerHeight;
 };
