@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "midi": "^0.9.3",
     "midi-clock": "0.0.1"
   }
 }
