@@ -1,5 +1,4 @@
-var CYTO = (CYTO) ? CYTO : {};
-(function(root) {
+(function(CYTO) {
 
   /**
    * Creates an Rectangle object

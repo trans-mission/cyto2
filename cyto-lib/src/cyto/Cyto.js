@@ -1,5 +1,6 @@
 "use strict"
 
+var CYTO = (CYTO) ? CYTO : {};
 // library initialization function
 
 var cyto = function(rendererType, canvasId) {
@@ -8,9 +9,9 @@ var cyto = function(rendererType, canvasId) {
 
   //config
   $.rendererType  = rendererType;
-  $.canvas = document.getElementById(canvasId);
-  $.sketch = $.canvas.getAttribute('data-sketch');
-  $.path   = '/sketches/'
+  $.canvas        = document.getElementById(canvasId);
+  $.sketch        = $.canvas.getAttribute('data-sketch');
+  $.path          = '/sketches/'
 
   //initialize root subclasses
   $.utils           = new Utils();
@@ -22,10 +23,9 @@ var cyto = function(rendererType, canvasId) {
   $.drawEngine      = new DrawEngine();
   $.ellipse         = new Ellipse();
 
-  //instantiate root primitives
-  $._rectangle = new $.Rectangle();
-  $.rect = $._rectangle.rect;
-
+  //2d primitives (direct call)
+  $.rect     = new $.Rectangle().rect;
+  $.triangle = new $.Triangle().triangle;
 
   //put root accesible props on $ object (global access)
   $.utils.accessRootProps($);
