@@ -107,6 +107,15 @@ DrawEngine.prototype.noLoop = function () {
 };
 
 /**
+* @method isLooping
+*/
+
+DrawEngine.prototype.isLooping = function () {
+  return this._noLoop;
+};
+
+
+/**
 * @method getTime
 */
 
