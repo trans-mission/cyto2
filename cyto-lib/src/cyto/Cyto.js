@@ -1,11 +1,7 @@
-"use strict"
-
-var CYTO = (CYTO) ? CYTO : {};
-// library initialization function
-
+//library initialization
 var cyto = function(rendererType, canvasId) {
 
-  $ = cyto = CYTO;
+  var $ = cyto = CYTO;
 
   //config
   $.rendererType  = rendererType;

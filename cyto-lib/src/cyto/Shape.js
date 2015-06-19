@@ -1,5 +1,3 @@
-var CYTO = (CYTO) ? CYTO : {};
-
 var Shape = function() {
 
   var $ = this;

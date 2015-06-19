@@ -53,8 +53,6 @@
   Triangle.prototype.triangle = function (x1, y1, x2, y2, x3, y3) {
     var $ = this;
 
-    console.log(x1, y1, x2, y2, x3, y3);
-
     $.renderer.beginPath();
     $.renderer.moveTo(x1, y1);
     $.renderer.lineTo(x2, y2);
