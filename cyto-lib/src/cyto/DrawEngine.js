@@ -20,6 +20,12 @@ var DrawEngine = function() {
     enumerable: true
   });
 
+  Object.defineProperty(this, 'isLooping', {
+    get: function()     { return !this._noLoop },
+    set: function(bool) { this._noLoop = !bool },
+    enumerable: true
+  });
+
   this.start = function() {
     this._lastRun  = this._getTimeNow();
     this._fps      = 0; // frames per second
@@ -105,15 +111,6 @@ DrawEngine.prototype._getTimeNow = function() {
 DrawEngine.prototype.noLoop = function () {
   this._noLoop = true;
 };
-
-/**
-* @method isLooping
-*/
-
-DrawEngine.prototype.isLooping = function () {
-  return this._noLoop;
-};
-
 
 /**
 * @method getTime

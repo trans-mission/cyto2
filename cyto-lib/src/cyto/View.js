@@ -17,7 +17,9 @@ var View = function() {
   var _resetTO;
   window.onresize = function() {
     if(_resetTO) clearTimeout(_resetTO);
-    _resetTO = setTimeout($.reset.bind($), 180);
+    _resetTO = setTimeout(function() {
+        $.reset(true);
+    }, 180);
   };
 };
 
@@ -27,15 +29,12 @@ var View = function() {
 * @method reset
 */
 
-View.prototype.reset = function (resize) {
+View.prototype.reset = function (isReload) {
   var $ = this;
   $.canvas.width  = window.innerWidth;
   $.canvas.height = window.innerHeight;
 
-  //TODO: implement a redraw function for resizing when
-  // the noLoop option is being used
-  // if(!cyto.isLooping()) {
-  //   cyto.draw();
-  // }
-  // //console.log(cyto.drawing);
+  if(isReload && !cyto.isLooping) {
+    cyto.draw();
+  }
 };
