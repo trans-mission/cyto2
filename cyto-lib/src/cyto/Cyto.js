@@ -17,7 +17,7 @@ var cyto = function(rendererType, canvasId) {
   $.renderer        = new Renderer();
   $.loader          = new Loader();
   $.drawEngine      = new DrawEngine();
-  $.ellipse         = new Ellipse();
+  //$.ellipse         = new Ellipse();
 
   //2d primitives (direct call)
 

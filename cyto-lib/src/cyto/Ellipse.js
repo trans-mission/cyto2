@@ -1,15 +1,126 @@
-var Ellipse = function() {
+(function(CYTO) {
 
-  var $ = this;
+  /**
+   * Creates an Ellipse object
+   *
+   * @constructor Ellipse
+   *
+   */
 
-  $._rootAccessible = true;
-  $._context = cyto.renderer.getContext();
-}
+  var Ellipse = function(opt) {
 
-Ellipse.prototype.arc = function(x, y, radius, startAngle, anticlockwise) {
-  var $ = this;
-  $._context.arc(x, y, radius, startAngle, anticlockwise);
-};
+    var $ = this;
+
+    $._rootAccessible = false;
+
+    $._renderer = cyto.renderer;
+    $._context  = cyto.renderer.getContext();
+
+    // set constructor opt
+    $.drawCenter  = (opt && opt.drawCenter)  ? opt.drawCenter  : false;
+    $.strokeStyle = (opt && opt.strokeStyle) ? opt.strokeStyle : '#fff';
+    $.fillStyle   = (opt && opt.fillStyle)   ? opt.fillStyle   : '#000';
+    $.draggable   = (opt && opt.draggable)   ? true            : false;
+
+    //TODO: support storing coords
+
+    $.hasFill   = (opt && opt.fillStyle);
+    $.hasStroke = true;
+
+    $.x1 = (opt && opt.x1) ? opt.x1 : 0;
+    $.y1 = (opt && opt.y1) ? opt.y1 : 0;
+    $.x2 = (opt && opt.x2) ? opt.x2 : 0;
+    $.y2 = (opt && opt.y2) ? opt.y2 : 0;
+    $.x3 = (opt && opt.x3) ? opt.x3 : 0;
+    $.y3 = (opt && opt.y3) ? opt.y3 : 0;
+
+    //public methods reserved for instantiated class objects
+    $.draw = $._draw;
+  };
+
+  /* public methods
+     -------------------------------------------------- */
+  /**
+  * Draws an ellipse
+  *
+  * @param {Number} x1 x-coord of first point
+  * @param {Number} y1 y-coord of first point
+  * @param {Number} x2 x-coord of second point
+  * @param {Number} y2 y-coord of second point
+  * @param {Number} x3 x-coord of third point
+  * @param {Number} y3 y-coord of third point
+  */
+
+  Ellipse.prototype.ellipse = function (x1, y1, x2, y2, x3, y3) {
+
+    var $ = this;
+
+    $._renderer.beginPath();
+    $._renderer.moveTo(x1, y1);
+    $._renderer.lineTo(x2, y2);
+    $._renderer.lineTo(x3, y3);
+    $._renderer.closePath();
+    $._renderer.stroke();
+    $._renderer.fill();
+    $._renderer.clearPath();
+  };
+
+  /**
+  * Draws an arc
+  *
+  * @param {Number} x x-coord of first point
+  * @param {Number} y y-coord of first point
+  * @param {Number} startAngle angle to start drawing from
+  * @param {Number} CCW - if true, arc is counterclockwise
+  */
+
+  Ellipse.prototype.arc = function(x, y, radius, startAngle, CCW) {
+
+    var $ = this;
+
+    $._renderer.arc(x, y, radius, startAngle, CCW);
+  };
+
+  /* private functions
+     -------------------------------------------------- */
+
+  Ellipse.prototype._draw = function() {
+
+    var $ = this;
+
+    //injects local style then restores the renderer
+    if($ instanceof Triangle) {
+      $._renderer.save();
+
+      if($.hasStroke) {
+        $._renderer.stroke($.strokeStyle);
+      } else {
+        $._renderer.noStroke();
+      }
+
+      if($.hasFill) {
+        $._renderer.fill($.fillStyle);
+      } else {
+        $._renderer.noFill();
+      }
+
+      $.triangle($.x1, $.y1, $.x2, $.y2, $.x3, $.y3);
+      $._renderer.restore();
+    }
+  };
+
+  CYTO.Ellipse = Ellipse;
+
+})(CYTO);
+
+
+// var Ellipse = function() {
+//
+//   var $ = this;
+//
+//   $._rootAccessible = true;
+//   $._context = cyto.renderer.getContext();
+
 
 
 //

@@ -30,7 +30,9 @@ var View = function() {
 */
 
 View.prototype.reset = function (isReload) {
+
   var $ = this;
+
   $.canvas.width  = window.innerWidth;
   $.canvas.height = window.innerHeight;
 
