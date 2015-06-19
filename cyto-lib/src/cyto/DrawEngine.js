@@ -1,42 +1,44 @@
 var DrawEngine = function() {
 
-  this._rootAccessible = true;
-  this._lastRun   = this._getTimeNow();
-  this._noLoop    = false;
-  this._frameRate = 60;
+  var $ = this;
 
-  //add this class to the events class (dispatcher)
-  cyto.eventDispatcher.apply(this);
+  $._rootAccessible = true;
+  $._noLoop         = false;
+  $._frameRate      = 60;
+  $._lastRun        = $._getTimeNow();
+
+  //add $ class to the events class (dispatcher)
+  cyto.eventDispatcher.apply($);
 
   // getters and setters
-  Object.defineProperty(this, 'fps', {
-    get: function()  { return this._fps },
+  Object.defineProperty($, 'fps', {
+    get: function()  { return $._fps },
     enumerable: true
   });
 
-  Object.defineProperty(this, 'frameRate', {
-    get: function()  { return this._frameRate },
-    set: function(r) { this._frameRate = r    },
+  Object.defineProperty($, 'frameRate', {
+    get: function()  { return $._frameRate },
+    set: function(r) { $._frameRate = r    },
     enumerable: true
   });
 
-  Object.defineProperty(this, 'isLooping', {
-    get: function()     { return !this._noLoop },
-    set: function(bool) { this._noLoop = !bool },
+  Object.defineProperty($, 'isLooping', {
+    get: function()     { return !$._noLoop },
+    set: function(bool) { $._noLoop = !bool },
     enumerable: true
   });
 
-  this.start = function() {
-    this._lastRun  = this._getTimeNow();
-    this._fps      = 0; // frames per second
+  $.start = function() {
+    $._lastRun = $._getTimeNow();
+    $._fps     = 0; // frames per second
 
     if(cyto.setup && typeof(cyto.setup) === 'function') {
       cyto.setup();
     }
 
-    this.animationId = window.requestAnimationFrame(function(time) {
-      this.animate.call(this, time); // this is the game
-    }.bind(this));
+    $.animationId = window.requestAnimationFrame(function(time) {
+      $.animate.call($, time);
+    });
   };
 };
 
@@ -45,12 +47,11 @@ var DrawEngine = function() {
 */
 
 DrawEngine.prototype.animate = function (time) {
+  var $ = this; // window.requestNextAnimationFrame() called by DOMWindow
 
-  var self = this; // window.requestNextAnimationFrame() called by DOMWindow
-
-  this.time = time;
-  this._fps = this._calcFps(time); // update fps time
-  this._lastRun = this._getTimeNow();
+  $._time = time;
+  $._fps = $._calcFps(time); // update fps time
+  $._lastRun = $._getTimeNow();
 
   //if an update function has been registered, call it for each animation loop
   if(cyto.update && typeof(cyto.update) === 'function') {
@@ -65,23 +66,23 @@ DrawEngine.prototype.animate = function (time) {
     cyto.draw(time);
   }
 
-  if(this._noLoop) return;
+  if($._noLoop) return;
 
-  if(this._frameRate) { //if specifying a framerate, don't use rAF
+  if($._frameRate) { //if specifying a framerate, don't use rAF
     setTimeout(function() {
 
       // 2nd arg passes next scheduled cycle
-      this.animate.call(this, this._getTimeNow() + 1000/this._frameRate);
+      $.animate.call($, $._getTimeNow() + 1000/$._frameRate);
 
-    }.bind(this), 1000/this._frameRate);
+    }, 1000/$._frameRate);
 
   } else { //rAF is locked to monitor's sync, typically 60 Hz, so we can't adjust the FPS for it in itself
 
     //requestionAnimationFrame() callback routine must itself call requestAnimationFrame()
     //in order to animate another frame at the next repaint.
-    this.animationId = window.requestAnimationFrame( function(time) {
-      this.animate.call(this, time);
-    }.bind(this));
+    $.animationId = window.requestAnimationFrame( function(time) {
+      $.animate.call($, time);
+    });
   }
 };
 
@@ -90,8 +91,10 @@ DrawEngine.prototype.animate = function (time) {
 */
 
 DrawEngine.prototype._calcFps = function (time) {
+  var $ = this;
+
   //calculates fps by taking frame delta, and then rounds to the nearest hundreth
-  return Math.round(1 / ((this._getTimeNow() - this._lastRun) / 1000) * 100) / 100;
+  return Math.round(1 / (($._getTimeNow() - $._lastRun) / 1000) * 100) / 100;
 };
 
 /**
@@ -109,7 +112,9 @@ DrawEngine.prototype._getTimeNow = function() {
 */
 
 DrawEngine.prototype.noLoop = function () {
-  this._noLoop = true;
+  var $ = this;
+
+  $._noLoop = true;
 };
 
 /**
@@ -117,7 +122,9 @@ DrawEngine.prototype.noLoop = function () {
 */
 
 DrawEngine.prototype.getTime = function () {
-  return this.time;
+  var $ = this;
+
+  return $._time;
 };
 
 /**
