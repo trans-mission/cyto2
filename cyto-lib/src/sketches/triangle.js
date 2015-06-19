@@ -6,6 +6,17 @@ var cy = cyto
   --------------------------------------------------- */
 cyto.setup = function() {
 
+  triangle = new cy.Triangle({
+    x1: 40,
+    y1: 220,
+    x2: 90,
+    y2: 120,
+    x3: 140,
+    y3: 220,
+    drawCenter : false,
+    draggable  : true,
+    fillStyle  : 'lightblue'
+  });
 
 }
 
@@ -26,10 +37,14 @@ cyto.draw = function() {
 
   var a = 30;
 
-  for(var i = 0; i < 500; i+=20) {
-
-    cy.triangle(30 + i, 75, 58 + i, 20, 86 + i, 75);
+  for(var i = 0; i < 210; i+=30) {
+    cy.noFill();
+    cy.triangle(30 + i, 60, 58 + i, 20, 86 + i, 60);
   }
 
+  cy.fill('#ff0000');
+  cy.triangle(100, 500, 350, 100, 600, 500);
+
+  triangle.draw();
 
 }

@@ -16,6 +16,7 @@
     $.renderer = cyto.renderer;
 
     // set constructor opt
+    $.drawCenter  = (opt && opt.drawCenter)  ? opt.drawCenter  : false;
     $.strokeStyle = (opt && opt.strokeStyle) ? opt.strokeStyle : '#fff';
     $.fillStyle   = (opt && opt.fillStyle)   ? opt.fillStyle   : '#000';
     $.draggable   = (opt && opt.draggable)   ? true            : false;
@@ -24,6 +25,13 @@
 
     $.hasFill   = (opt && opt.fillStyle);
     $.hasStroke = true;
+
+    $.x1 = (opt && opt.x1) ? opt.x1 : 0;
+    $.y1 = (opt && opt.y1) ? opt.y1 : 0;
+    $.x2 = (opt && opt.x2) ? opt.x2 : 0;
+    $.y2 = (opt && opt.y2) ? opt.y2 : 0;
+    $.x3 = (opt && opt.x3) ? opt.x3 : 0;
+    $.y3 = (opt && opt.y3) ? opt.y3 : 0;
 
     //public methods reserved for instantiated class objects
     $.draw = $._draw;
@@ -44,6 +52,8 @@
 
   Triangle.prototype.triangle = function (x1, y1, x2, y2, x3, y3) {
     var $ = this;
+
+    console.log(x1, y1, x2, y2, x3, y3);
 
     $.renderer.beginPath();
     $.renderer.moveTo(x1, y1);
@@ -77,7 +87,7 @@
         $.renderer.noFill();
       }
 
-      $.rect($.x, $.y, $.w, $.h, $.radius);
+      $.triangle($.x1, $.y1, $.x2, $.y2, $.x3, $.y3);
       $.renderer.restore();
     }
   };
