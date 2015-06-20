@@ -66,6 +66,7 @@
   */
 
   Rectangle.prototype.rect = function (x, y, w, h, r) {
+    
     var $ = this;
 
     r = r || 0;

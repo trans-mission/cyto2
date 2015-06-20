@@ -73,13 +73,21 @@ var Renderer = function() {
 
     Object.defineProperty(this, 'strokeStyle', { //wraps canvas _context
       get: function()  { return this._context.strokeStyle },
-      set: function(c) { this._context.strokeStyle = c;   }
+      set: function(c) {
+        this._context.strokeStyle = c;
+        this.hasStroke = true;
+      },
+      enumerable: true
     });
 
 
     Object.defineProperty(this, 'fillStyle', { //wraps canvas _context
       get: function()  { return this._context.fillStyle },
-      set: function(c) { this._context.fillStyle = c;   }
+      set: function(c) {
+        this._context.fillStyle = c;
+        this.hasFill = true;
+      },
+      enumerable: true
     });
 
     var hasStroke = false;

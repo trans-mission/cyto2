@@ -17,13 +17,14 @@ var cyto = function(rendererType, canvasId) {
   $.renderer        = new Renderer();
   $.loader          = new Loader();
   $.drawEngine      = new DrawEngine();
-  //$.ellipse         = new Ellipse();
+
 
   //2d primitives (direct call)
 
   // these can be called directoy on the root
   // alternatively they're parent objects can be
   // instantiated as unique objects
+  $.arc      = new $.Ellipse().arc;
   $.rect     = new $.Rectangle().rect;
   $.triangle = new $.Triangle().triangle;
 
