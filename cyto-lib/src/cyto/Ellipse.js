@@ -44,18 +44,16 @@
 
   */
 
-  Ellipse.prototype.ellipse = function () {
+  Ellipse.prototype.ellipse = function (x, y, radiusX, radiusY, rotation, startAngle, endAngle, CCW) {
 
     var $ = this;
 
-    // $.renderer.beginPath();
-    // $.renderer.moveTo(x1, y1);
-    // $.renderer.lineTo(x2, y2);
-    // $.renderer.lineTo(x3, y3);
-    // $.renderer.closePath();
-    // $.renderer.stroke();
-    // $.renderer.fill();
-    // $.renderer.clearPath();
+    $.renderer.beginPath();
+    $.renderer.getContext().ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, CCW);
+    $.renderer.closePath();
+    $.renderer.stroke();
+    $.renderer.fill();
+    $.renderer.clearPath();
   };
 
   /**
@@ -67,7 +65,7 @@
   * @param {Number} CCW - if true, arc is counterclockwise
   */
 
-  Ellipse.prototype.arc = function(x, y, radius, startAngle, endAngle, CCW) {
+  Ellipse.prototype.arc = function (x, y, radius, startAngle, endAngle, CCW) {
 
     var $ = this;
 

@@ -25,6 +25,7 @@ var cyto = function(rendererType, canvasId) {
   // alternatively they're parent objects can be
   // instantiated as unique objects
   $.arc      = new $.Ellipse().arc;
+  $.ellipse  = new $.Ellipse().ellipse;
   $.rect     = new $.Rectangle().rect;
   $.triangle = new $.Triangle().triangle;
 
