@@ -37,6 +37,7 @@ View.prototype.reset = function (isReload) {
   $.canvas.height = window.innerHeight;
 
   if(isReload && !cyto.isLooping) {
+    cyto.renderer._reset();
     cyto.draw();
   }
 };

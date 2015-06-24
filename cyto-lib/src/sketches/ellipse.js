@@ -17,8 +17,11 @@ cyto.setup = function() {
   //   drawCenter: true
   // });
 
-  cy.strokeStyle = 'green';
-  cy.fillStyle = 'blue';
+  //cy.strokeStyle = 'green';
+  cy.stroke('green');
+  // cy.noStroke();
+  // //cy.fillStyle = 'blue';
+  // cy.fill('blue');
   cy.noLoop();
 
 }

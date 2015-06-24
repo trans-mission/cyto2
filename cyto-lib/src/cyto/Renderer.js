@@ -53,6 +53,11 @@ var Renderer = function() {
 
     this._context = this._canvas.getContext('2d');
 
+    this._reset = function() {
+      this._context.strokeStyle = this.strokeStyle;
+      this._context.fillStyle   = this.fillStyle;
+    }
+
     Object.defineProperty(this, 'lineWidth', {
       //default line width is 1.0
       get: function()  { return this._context.lineWidth },
@@ -71,11 +76,16 @@ var Renderer = function() {
 
     // TODO: lineDashOffset
 
+    var _strokeStyle; //preserve value
     Object.defineProperty(this, 'strokeStyle', { //wraps canvas _context
-      get: function()  { return this._context.strokeStyle },
+      get: function()  {
+        if(this._context.strokeStyle !== _strokeStyle) {
+          this._context.strokeStyle = _strokeStyle;
+        }
+        return this._context.strokeStyle;
+      },
       set: function(c) {
-        this._context.strokeStyle = c;
-        this.hasStroke = true;
+        this._context.strokeStyle = _strokeStyle = c;
       },
       enumerable: true
     });
@@ -83,23 +93,22 @@ var Renderer = function() {
 
     Object.defineProperty(this, 'fillStyle', { //wraps canvas _context
       get: function()  { return this._context.fillStyle },
-      set: function(c) {
-        this._context.fillStyle = c;
-        this.hasFill = true;
-      },
+      set: function(c) { this._context.fillStyle = c;   },
       enumerable: true
     });
 
     var hasStroke = false;
     Object.defineProperty(this, 'hasStroke', {
-      get: function()     { return  hasStroke},
-      set: function(bool) { hasStroke = bool; }
+      get: function()     { return  hasStroke },
+      set: function(bool) { hasStroke = bool; },
+      enumerable: true
     });
 
     var hasFill = false;
     Object.defineProperty(this, 'hasFill', {
       get: function()     { return hasFill  },
-      set: function(bool) { hasFill = bool; }
+      set: function(bool) { hasFill = bool; },
+      enumerable: true
     });
 
   } else {
@@ -191,7 +200,6 @@ Renderer.prototype.stroke = function (c) {
 
 Renderer.prototype.noStroke = function (color) {
   this.hasStroke = false;
-  this.strokeStyle = 'rgba(0,0,0,0)';
 };
 
 Renderer.prototype.fill = function (c) {
@@ -214,7 +222,6 @@ Renderer.prototype.moveTo = function(x, y) {
 
 Renderer.prototype.noFill = function () {
   this.hasFill = false;
-  //this.strokeStyle = 'rgba(0,0,0,0)';
 };
 
 Renderer.prototype.quadraticCurveTo = function(cpx, cpy, x, y) {
