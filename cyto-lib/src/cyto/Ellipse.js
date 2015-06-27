@@ -19,11 +19,11 @@
     $.fillStyle   = (opt && opt.fillStyle)   ? opt.fillStyle   : '#000';
     $.draggable   = (opt && opt.draggable)   ? true            : false;
 
-    //TODO: support storing coords
 
     $.hasFill   = (opt && opt.fillStyle);
     $.hasStroke = true;
 
+    //TODO: support storing coords
     // $.x1 = (opt && opt.x1) ? opt.x1 : 0;
     // $.y1 = (opt && opt.y1) ? opt.y1 : 0;
     // $.x2 = (opt && opt.x2) ? opt.x2 : 0;
