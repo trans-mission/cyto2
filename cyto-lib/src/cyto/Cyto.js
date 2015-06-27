@@ -27,7 +27,8 @@ var cyto = function(rendererType, canvasId) {
   $.line     = new $.Line().line;
   $.arc      = new $.Ellipse().arc;
   $.ellipse  = new $.Ellipse().ellipse;
-  $.rect     = new $.Rectangle().rect;
+  $.rect     = new $.Quad().rect;
+  $.quad     = new $.Quad().quad;
   $.triangle = new $.Triangle().triangle;
 
   //put root accesible props on $ object (global access)

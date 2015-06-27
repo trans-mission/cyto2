@@ -1,18 +1,18 @@
 (function(CYTO) {
 
   /**
-   * Creates an Rectangle object
+   * Creates an Quad object
    *
-   * @constructor Ellipse
+   * @constructor Quad
    *
-   * @param opt        {Object}  - configuration opt for ellipse object
-   * @param opt.x      {Number}  - center x coordinate of the ellipse
-   * @param opt.y      {Number}  - center y coordinate of the ellipse
-   * @param opt.w  {Number}  - w of the ellipse
+   * @param opt   {Object}  - configuration opt for ellipse object
+   * @param opt.x {Number}  - center x coordinate of the ellipse
+   * @param opt.y {Number}  - center y coordinate of the ellipse
+   * @param opt.w {Number}  - w of the ellipse
    * @param opt.h {Number}  - h of the ellipse
    */
 
-  var Rectangle = function(opt) {
+  var Quad = function(opt) {
 
     var $ = this;
 
@@ -51,22 +51,67 @@
 
   /* public methods
      -------------------------------------------------- */
+
+  Quad.prototype.square = function () {
+
+  };
+
+  Quad.prototype.rhombus = function () {
+
+  };
+
+  Quad.prototype.trapezoid = function () {
+
+  };
+
+  Quad.prototype.kite = function() {
+
+  };
+
   /**
   * Draws a rectangle using the current state of the canvas.
   * By providing a fifth r argument a corner radius can be specified
   *
   * @param {CanvasRenderingContext2D} ctx
+  * @param {Number} x1 - x-coord of the first corner
+  * @param {Number} y1 - x-coord of the first corner
+  * @param {Number} x2 - x-coord of the second corner
+  * @param {Number} y2 - x-coord of the second corner
+  * @param {Number} x3 - x-coord of the third corner
+  * @param {Number} y3 - x-coord of the third corner
+  * @param {Number} x4 - x-coord of the fourth corner
+  * @param {Number} y4 - x-coord of the fourth corner
+  */
+
+  Quad.prototype.quad = function (x1, y1, x2, y2, x3, y3, x4, y4) {
+
+    var $ = this;
+
+    $.renderer.beginPath();
+    $.renderer.moveTo(x1, y1);
+    $.renderer.lineTo(x2, y2);
+    $.renderer.lineTo(x3, y3);
+    $.renderer.lineTo(x4, y4);
+    $.renderer.lineTo(x1, y1);
+    $.renderer.closePath();
+    $.renderer.stroke();
+    $.renderer.fill();
+    $.renderer.clearPath();
+  };
+
+  /**
+  * Draws a rectangle using the current state of the canvas.
+  * By providing a fifth r argument a corner radius can be specified
+  *
   * @param {Number} x The top left x coordinate
   * @param {Number} y The top left y coordinate
   * @param {Number} w The w of the rectangle
   * @param {Number} h The h of the rectangle
   * @param {Number} radius The corner radius. Defaults to 5;
-  * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
-  * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
   */
 
-  Rectangle.prototype.rect = function (x, y, w, h, r) {
-    
+  Quad.prototype.rect = function (x, y, w, h, r) {
+
     var $ = this;
 
     r = r || 0;
@@ -97,14 +142,14 @@
   /* private functions
      -------------------------------------------------- */
 
-  Rectangle.prototype._draw = function() {
+  Quad.prototype._draw = function() {
     var $ = this;
 
     //injects local style then restores the renderer
 
     if(!$.hasBeenDrawn) $._hasBeenDrawn = true;
 
-    if($ instanceof Rectangle) {
+    if($ instanceof Quad) {
       $.renderer.save();
       if($.hasStroke) {
         $.renderer.stroke($.strokeStyle);
@@ -121,6 +166,6 @@
     }
   };
 
-  CYTO.Rectangle = Rectangle;
+  CYTO.Quad = Quad;
 
 })(CYTO);
