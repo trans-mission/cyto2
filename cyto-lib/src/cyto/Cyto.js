@@ -24,6 +24,7 @@ var cyto = function(rendererType, canvasId) {
   // these can be called directoy on the root
   // alternatively they're parent objects can be
   // instantiated as unique objects
+  $.line     = new $.Line().line;
   $.arc      = new $.Ellipse().arc;
   $.ellipse  = new $.Ellipse().ellipse;
   $.rect     = new $.Rectangle().rect;

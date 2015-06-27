@@ -48,7 +48,7 @@
 
     $.renderer.beginPath();
     $.renderer.moveTo(x1, y1);
-    $.renderer.lineTo(x1, y1);
+    $.renderer.lineTo(x2, y2);
     $.renderer.stroke();
     $.renderer.fill();
     $.renderer.clearPath();
